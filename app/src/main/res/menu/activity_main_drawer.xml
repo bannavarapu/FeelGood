@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_prog"
+            android:icon="@drawable/baseline_tune_black_18dp"
+            android:title="Progress" />
+        <item
+            android:id="@+id/nav_relax"
+            android:icon="@drawable/baseline_insert_emoticon_black_18dp"
+            android:title="Relax" />
+        <item
+            android:id="@+id/nav_blog"
+            android:icon="@drawable/facts_24"
+            android:title="Blog" />
+        <item
+            android:id="@+id/nav_facts"
+            android:icon="@drawable/baseline_library_books_black_18dp"
+            android:title="Facts" />
+        <item
+            android:id="@+id/nav_hotline"
+            android:icon="@drawable/baseline_call_black_18dp"
+            android:title="Hotline" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>

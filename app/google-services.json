@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "347058992446",
+    "firebase_url": "https://feelgood-58fe5.firebaseio.com",
+    "project_id": "feelgood-58fe5",
+    "storage_bucket": "feelgood-58fe5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347058992446:android:35d850ce2cb398ff",
+        "android_client_info": {
+          "package_name": "com.example.anudeepthi.feelgood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347058992446-eq0ui7uo5kq7rhf9s41663vn9af4l9l9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.anudeepthi.feelgood",
+            "certificate_hash": "30189cb20a59ba2cb36ede86b00cc50d09e81421"
+          }
+        },
+        {
+          "client_id": "347058992446-1881algofvt6lubga755dft11pb3ehbp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAH7WdiPnqJLShKF7WOo1byJeLX84lPPuU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347058992446-1881algofvt6lubga755dft11pb3ehbp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
