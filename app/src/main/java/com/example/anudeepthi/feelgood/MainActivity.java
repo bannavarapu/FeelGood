@@ -170,6 +170,10 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_relax) {
 
+            Intent intent = new Intent(this, RelaxOptions.class);
+            startActivity(intent);
+            return true;
+
         } else if (id == R.id.nav_blog) {
 
         } else if (id == R.id.nav_hotline) {
@@ -201,4 +205,22 @@ public class MainActivity extends AppCompatActivity
     public void happy(View view){
         Toast.makeText(this,"I'm happy",Toast.LENGTH_LONG).show();
     }
+
+    public void dont_know(View view){
+        Toast.makeText(this,"I'm not sure",Toast.LENGTH_LONG).show();
+    }
+
+    public void sad(View view){
+        Toast.makeText(this,"I'm sad",Toast.LENGTH_LONG).show();
+    }
+
+    public void very_sad(View view){
+        Toast.makeText(this,"I'm very sad",Toast.LENGTH_LONG).show();
+    }
+
+    public void very_angry(View view){
+        Toast.makeText(this,"I'm very angry",Toast.LENGTH_LONG).show();
+    }
+
+
 }

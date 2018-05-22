@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_Yoga"
+            android:icon="@drawable/floating_guru"
+            android:title="Yoga" />
+        <item
+            android:id="@+id/nav_Meditation"
+            android:icon="@drawable/yin_yang"
+            android:title="Meditation" />
+        <item
+            android:id="@+id/nav_Dance"
+            android:icon="@drawable/dancing"
+            android:title="Dance" />
+        <item
+            android:id="@+id/nav_Music"
+            android:icon="@drawable/music"
+            android:title="Music" />
+        <item
+            android:id="@+id/nav_Comedy"
+            android:icon="@drawable/laughing"
+            android:title="Comedy" />
+        <item
+            android:id="@+id/nav_TedTalks"
+            android:icon="@drawable/ted_talk"
+            android:title="Talks" />
+    </group>
+
+
+
+</menu>

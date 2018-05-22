@@ -56,6 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:onClick="dont_know"
             android:src="@drawable/dont_know" />
 
         <ImageView
@@ -63,6 +64,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:onClick="sad"
             android:src="@drawable/sad" />
 
         <ImageView
@@ -70,6 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:onClick="very_sad"
             android:src="@drawable/very_sad" />
 
         <ImageView
@@ -77,6 +80,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:onClick="very_angry"
             android:src="@drawable/very_angry" />
 
     </LinearLayout>
