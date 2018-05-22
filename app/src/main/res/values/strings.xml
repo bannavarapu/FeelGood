@@ -11,6 +11,7 @@
 
     <string name="title_activity_relax_options">Relax Options</string>
     <string name="nav_header_title_relax">Relaxing Time</string>
-    <string name="nav_header_subtitle_relax">Feel free to lay back</string>
+    <string name="nav_header_subtitle_relax">Time to find some peace</string>
     <string name="action_dashboard">Dashboard</string>
+    <string name="title_activity_blog">BlogActivity</string>
 </resources>

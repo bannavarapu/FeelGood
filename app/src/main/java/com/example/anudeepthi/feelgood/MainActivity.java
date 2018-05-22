@@ -176,6 +176,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_blog) {
 
+            Intent intent = new Intent(this, Blog.class);
+            startActivity(intent);
+            return true;
+
         } else if (id == R.id.nav_hotline) {
 
         } else if (id == R.id.nav_share) {
