@@ -36,11 +36,14 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHol
     @Override
     public void onBindViewHolder(@NonNull FactsAdapter.FactsViewHolder holder, int position) {
 
+        String fact = "This is such a big paragraph, this is a very very big paragraph. I'm trying to be a big paragraph. I want to be huge. Pleasse let me be huge!";
+
+        holder.fact.setText(fact);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 1;
     }
 
     class FactsViewHolder extends RecyclerView.ViewHolder{
