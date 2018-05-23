@@ -26,12 +26,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:contentDescription="Main Image"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop"
+                android:src="@drawable/medi"/>
 
             <TextView
                 android:id="@+id/Title"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:textSize="32dp"

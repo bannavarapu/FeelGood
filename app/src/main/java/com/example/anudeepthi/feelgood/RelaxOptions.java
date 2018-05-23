@@ -16,11 +16,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+
 public class RelaxOptions extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RelaxationAdapter mAdapter;
     RecyclerView mRecyclerView;
+    private DatabaseReference mDatabaseReference;
+    ArrayList<String> factsToDisplay;
+    FirebaseDatabase mFirebaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +62,45 @@ public class RelaxOptions extends AppCompatActivity
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-
-        mAdapter = new RelaxationAdapter(this);
-        mRecyclerView.setAdapter(mAdapter);
+        factsToDisplay = new ArrayList<String>();
+        mAdapter = new RelaxationAdapter(this,factsToDisplay);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        fillDataSet();
     }
+
+    protected void fillDataSet()
+    {
+        String link="facts/happy/";
+        mDatabaseReference = mFirebaseDatabase.getReference().child(link);
+        mDatabaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String data = dataSnapshot.getValue(String.class);
+                factsToDisplay.add(data);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+            }
 
     @Override
     public void onBackPressed() {

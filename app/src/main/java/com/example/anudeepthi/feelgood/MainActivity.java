@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,8 +24,18 @@ import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -31,9 +44,58 @@ public class MainActivity extends AppCompatActivity
     private FirebaseAuth.AuthStateListener mAuthStateListener;
     public static final int RC_SIGN_IN = 1;
     private String mUsername;
-
     private FactsAdapter mAdapter;
+    private FactsAdapter newAdapter;
     RecyclerView mRecyclerView;
+    private String currentMood;
+    private DatabaseReference mDatabaseReference;
+    ArrayList<String> factsToDisplay;
+    FirebaseDatabase mFirebaseDatabase;
+    public boolean flag = false;
+
+
+    protected void fillDataSet(final boolean flag)
+    {
+        this.flag = flag;
+        String link="facts/"+currentMood+"/";
+        mDatabaseReference = mFirebaseDatabase.getReference().child(link);
+        mDatabaseReference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String data = dataSnapshot.getValue(String.class);
+                factsToDisplay.add(data);
+                Collections.shuffle(factsToDisplay);
+//                factsToDisplay = (ArrayList<String>)factsToDisplay.subList(0,5);
+                if(flag==true) {mAdapter.notifyDataSetChanged();}
+                else
+                {
+                    mRecyclerView.setAdapter(mAdapter);
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +104,11 @@ public class MainActivity extends AppCompatActivity
 
         mUsername = "DEFAULT";
         mFirebaseAuth = FirebaseAuth.getInstance();
+        currentMood="happy";
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -64,14 +119,15 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        factsToDisplay = new ArrayList<String>();
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_facts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-
-        mAdapter = new FactsAdapter(this);
-        mRecyclerView.setAdapter(mAdapter);
-
+        mAdapter = new FactsAdapter(this,factsToDisplay);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        fillDataSet(false);
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -203,28 +259,48 @@ public class MainActivity extends AppCompatActivity
 
 
     public void excited(View view){
+        currentMood="excited";
         Toast.makeText(this,"I'm excited",Toast.LENGTH_LONG).show();
+        factsToDisplay.clear();
+        fillDataSet(true);
     }
 
-    public void happy(View view){
+    public void happy(View view)
+    {
+        currentMood="happy";
         Toast.makeText(this,"I'm happy",Toast.LENGTH_LONG).show();
+        factsToDisplay.clear();
+        fillDataSet(true);
     }
 
     public void dont_know(View view){
+        currentMood="dont_know";
         Toast.makeText(this,"I'm not sure",Toast.LENGTH_LONG).show();
+        factsToDisplay.clear();
+        fillDataSet(true);
     }
 
     public void sad(View view){
+        currentMood="sad";
         Toast.makeText(this,"I'm sad",Toast.LENGTH_LONG).show();
+        factsToDisplay.clear();
+        fillDataSet(true);
     }
 
     public void very_sad(View view){
+        currentMood="very_sad";
         Toast.makeText(this,"I'm very sad",Toast.LENGTH_LONG).show();
+        factsToDisplay.clear();
+        fillDataSet(true);
     }
 
     public void very_angry(View view){
+        currentMood="anger";
         Toast.makeText(this,"I'm very angry",Toast.LENGTH_LONG).show();
+        factsToDisplay.clear();
+        fillDataSet(true);
     }
+
 
 
 }

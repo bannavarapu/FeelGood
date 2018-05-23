@@ -9,12 +9,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.RelaxationViewHolder>{
 
     Context mContext;
+    ArrayList<String> factList;
 
-    public RelaxationAdapter(Context context){
+    public RelaxationAdapter(Context context,ArrayList<String> factList){
         mContext = context;
+        this.factList=factList;
     }
 
     @NonNull
@@ -34,12 +38,14 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
     @Override
     public void onBindViewHolder(@NonNull RelaxationViewHolder holder, int position) {
 
+        holder.title.setText("title");
+        holder.desc.setText(factList.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return factList.size();
     }
 
     class RelaxationViewHolder extends RecyclerView.ViewHolder{
