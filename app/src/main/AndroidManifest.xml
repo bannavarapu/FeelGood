@@ -25,11 +25,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Blog"
-            android:label="Blog" />
-        <activity android:name=".PublicBlog"
-            android:label="Public Blog"/>
-        <activity android:name=".PostBlog"
-            android:label="Post Blog"></activity>
+            android:label="@string/title_activity_blog"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

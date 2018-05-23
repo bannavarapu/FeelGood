@@ -17,18 +17,7 @@ android {
         }
     }
 
-    sourceSets{
-        main {
-            res.srcDirs =
-                    [
-                            'src/main/res/layouts/dashboard',
-                            'src/main/res/layouts/relaxation',
-                            'src/main/res/layouts/blog',
-                            'src/main/res/layouts',
-                            'src/main/res'
-                    ]
-        }
-    }
+
 }
 
 dependencies {

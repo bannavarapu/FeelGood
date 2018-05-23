@@ -13,5 +13,8 @@
     <string name="nav_header_title_relax">Relaxing Time</string>
     <string name="nav_header_subtitle_relax">Time to find some peace</string>
     <string name="action_dashboard">Dashboard</string>
-    <string name="title_activity_blog">BlogActivity</string>
+
+
+    <string name="title_activity_blog">Blog</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
