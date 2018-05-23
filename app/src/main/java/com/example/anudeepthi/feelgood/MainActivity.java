@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity
     public static final int RC_SIGN_IN = 1;
     private String mUsername;
     private FactsAdapter mAdapter;
-    private FactsAdapter newAdapter;
     RecyclerView mRecyclerView;
     private String currentMood;
     private DatabaseReference mDatabaseReference;
@@ -65,7 +64,6 @@ public class MainActivity extends AppCompatActivity
                 String data = dataSnapshot.getValue(String.class);
                 factsToDisplay.add(data);
                 Collections.shuffle(factsToDisplay);
-//                factsToDisplay = (ArrayList<String>)factsToDisplay.subList(0,5);
                 if(flag==true) {mAdapter.notifyDataSetChanged();}
                 else
                 {
