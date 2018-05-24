@@ -128,8 +128,7 @@ public class RelaxOptions extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_dashboard) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            finish();
             return true;
         }
 

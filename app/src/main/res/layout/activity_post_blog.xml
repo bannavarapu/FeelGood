@@ -9,8 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:text="Post Blog"
-        android:onClick="Post"/>
+        android:text="Post Blog" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="0dp"
