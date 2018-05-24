@@ -12,9 +12,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/relax_opts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="102dp">
+        android:layout_height="wrap_content">
 
     </android.support.v7.widget.RecyclerView>
 

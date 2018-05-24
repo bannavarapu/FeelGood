@@ -11,9 +11,9 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="5dp"
-        card_view:cardElevation="4dp"
-        card_view:cardMaxElevation="5dp"
+        card_view:cardCornerRadius="3dp"
+        card_view:cardElevation="0.7dp"
+        card_view:cardMaxElevation="1dp"
         card_view:cardPreventCornerOverlap="false"
         card_view:cardUseCompatPadding="true">
         <TextView

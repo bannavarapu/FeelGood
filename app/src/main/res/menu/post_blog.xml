@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/MyBlog"
+        android:title="My Blog"
+        android:orderInCategory="1"/>
+
+    <item
+        android:id="@+id/PublicBlog"
+        android:title="Public Blog"
+        android:orderInCategory="2"/>
+
+    <item
+        android:id="@+id/cancel"
+        android:orderInCategory="3"
+        android:title="Cancel"/>
+
+
+
+</menu>
