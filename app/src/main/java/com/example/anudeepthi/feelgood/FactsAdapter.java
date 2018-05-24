@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHolder> {
 
@@ -19,7 +20,7 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHol
 
     public FactsAdapter(Context context, ArrayList<String> factList){
         this.mContext = context;
-        this.factList= factList;
+        this.factList = factList;
     }
 
     @NonNull

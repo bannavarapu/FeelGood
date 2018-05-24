@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,12 +48,58 @@ public class MainActivity extends AppCompatActivity
     public static final int RC_SIGN_IN = 1;
     private String mUsername;
     private FactsAdapter mAdapter;
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
     private String currentMood;
     private DatabaseReference mDatabaseReference;
-    ArrayList<String> factsToDisplay;
-    FirebaseDatabase mFirebaseDatabase;
+    private ArrayList<String> factsToDisplay;
+    private FirebaseDatabase mFirebaseDatabase;
+    private String mUserID =  "";
     public boolean flag = false;
+    private ArrayList<String> firstName = new ArrayList<String>(Arrays.asList("Yung", "Dong", "Sang", "Choi", "lee", "Jung", "Huyn", "Jim", "Gun", "Wook"));
+    private ArrayList<String> lastName = new ArrayList<String>(Arrays.asList("Noki", "Doshi", "Todota", "Ka Si", "Ki Na", "Modo Rika", "Ariku", "No Mo", "Hamadi", "Ting Wong"));
+    private String mUserTag = "";
+
+    private String fillform()
+    {
+        Toast.makeText(this, "Bro you need to fill up a form!", Toast.LENGTH_LONG).show();
+        return "Tag";
+    }
+
+    private void getusername ()
+    {
+        DatabaseReference  mUserdetailref =  FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userName");
+        ValueEventListener tocheckuser = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists())
+                {
+                    mUsername = dataSnapshot.getValue().toString();
+                    TextView uname = (TextView) findViewById(R.id.textView);
+                    uname.setText(mUsername);
+                }
+                else
+                {
+                    mUserTag = fillform();
+                    Random rfunc = new Random();
+                    int firstNameId = rfunc.nextInt(10);
+                    int lastNameId = rfunc.nextInt(10);
+                    mUsername = firstName.get(firstNameId)+" "+lastName.get(lastNameId);
+                    TextView uname = (TextView) findViewById(R.id.textView);
+                    uname.setText(mUsername);
+                    User user = new User (mUsername, mUserTag);
+                    DatabaseReference  mUserdetailref =  FirebaseDatabase.getInstance().getReference().child("users");
+                    mUserdetailref.child(mUserID).setValue(user);
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        mUserdetailref.addValueEventListener(tocheckuser);
+    }
 
 
     protected void fillDataSet(final boolean flag)
@@ -63,7 +112,7 @@ public class MainActivity extends AppCompatActivity
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String data = dataSnapshot.getValue(String.class);
                 factsToDisplay.add(data);
-                Collections.shuffle(factsToDisplay);
+                System.out.println(Arrays.toString(factsToDisplay.toArray()));
                 if(flag==true) {mAdapter.notifyDataSetChanged();}
                 else
                 {
@@ -99,10 +148,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         mUsername = "DEFAULT";
         mFirebaseAuth = FirebaseAuth.getInstance();
-        currentMood="happy";
+        currentMood="dont_know";
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -132,7 +180,9 @@ public class MainActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
-                    onSignedInInitialize(user.getDisplayName());
+                mUserID = user.getUid();
+                onSignedInInitialize(user.getDisplayName());
+                getusername();
                 }
                 else{
                     onSignedOutCleanUp();
@@ -295,7 +345,9 @@ public class MainActivity extends AppCompatActivity
     public void very_angry(View view){
         currentMood="anger";
         Toast.makeText(this,"I'm very angry",Toast.LENGTH_LONG).show();
+        System.out.println(Arrays.toString(factsToDisplay.toArray())+"full array");
         factsToDisplay.clear();
+        System.out.println(Arrays.toString(factsToDisplay.toArray())+"empty array");
         fillDataSet(true);
     }
 

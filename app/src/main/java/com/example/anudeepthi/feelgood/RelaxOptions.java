@@ -15,14 +15,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class RelaxOptions extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,7 +33,7 @@ public class RelaxOptions extends AppCompatActivity
     private RelaxationAdapter mAdapter;
     RecyclerView mRecyclerView;
     private DatabaseReference mDatabaseReference;
-    ArrayList<String> factsToDisplay;
+    ArrayList<Relax_option_format> suggestionsToDisplay;
     FirebaseDatabase mFirebaseDatabase;
 
     @Override
@@ -62,44 +65,87 @@ public class RelaxOptions extends AppCompatActivity
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        factsToDisplay = new ArrayList<String>();
-        mAdapter = new RelaxationAdapter(this,factsToDisplay);
+        suggestionsToDisplay = new ArrayList<Relax_option_format>();
+        mAdapter = new RelaxationAdapter(this,suggestionsToDisplay);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        fillDataSet();
+    }
+
+    public void onResume(){
+        super.onResume();
         fillDataSet();
     }
 
     protected void fillDataSet()
     {
-        String link="facts/happy/";
+        String link="relax_options/";
+
         mDatabaseReference = mFirebaseDatabase.getReference().child(link);
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
+        ValueEventListener toFillSuggestions = new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                String data = dataSnapshot.getValue(String.class);
-                factsToDisplay.add(data);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Relax_option_format option ;
+               String index1 = 1+"";
+               String index2 = 2+"";
+               suggestionsToDisplay.clear();
+               option = dataSnapshot.child("music").child(index1).getValue(Relax_option_format.class);
+               suggestionsToDisplay.add(option);
+               option = dataSnapshot.child("music").child(index2).getValue(Relax_option_format.class);
+               suggestionsToDisplay.add(option);
+                option = (Relax_option_format)dataSnapshot.child("dance").child(index1).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
+                option = (Relax_option_format)dataSnapshot.child("dance").child(index2).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
+                option = (Relax_option_format)dataSnapshot.child("yoga").child(index1).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
+                option = (Relax_option_format)dataSnapshot.child("yoga").child(index2).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
+                option = (Relax_option_format)dataSnapshot.child("meditation").child(index1).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
+                option = (Relax_option_format)dataSnapshot.child("meditation").child(index2).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
+                option = (Relax_option_format)dataSnapshot.child("comedy").child(index1).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
+                option = (Relax_option_format)dataSnapshot.child("comedy").child(index2).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
                 mRecyclerView.setAdapter(mAdapter);
             }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
+        };
+
+        mDatabaseReference.addValueEventListener(toFillSuggestions);
+
+//        mDatabaseReference.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                String data = dataSnapshot.getValue(String.class);
+//                factsToDisplay.add(data);
+//                mRecyclerView.setAdapter(mAdapter);
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
             }
 
     @Override
@@ -128,8 +174,7 @@ public class RelaxOptions extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_dashboard) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            finish();
             return true;
         }
 
