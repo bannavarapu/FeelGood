@@ -87,6 +87,13 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
 
             }
         });
+        holder.dislike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateNumber(suggestionList.get(position).id, false);
+
+            }
+        });
 
 
     }
@@ -116,7 +123,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     long prev = (Long)dataSnapshot.child("dislikes").getValue();
-                    refToUpdate.child("dislikes").setValue(prev-1);
+                    refToUpdate.child("dislikes").setValue(prev+1);
                 }
 
                 @Override
