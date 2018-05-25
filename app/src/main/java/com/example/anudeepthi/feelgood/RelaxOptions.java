@@ -15,9 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class RelaxOptions extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,6 +32,9 @@ public class RelaxOptions extends AppCompatActivity
     private DatabaseReference mDatabaseReference;
     ArrayList<Relax_option_format> suggestionsToDisplay;
     FirebaseDatabase mFirebaseDatabase;
+    private final int REQUEST_CODE = 1001;
+    static String activity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,23 +160,55 @@ public class RelaxOptions extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_Yoga) {
-            Intent intent = new Intent(this, Yoga.class);
-            startActivity(intent);
+
+            Intent intent = new Intent(this, RelaxOptsContent.class);
+            intent.putExtra(activity,"yoga");
+            startActivityForResult(intent,REQUEST_CODE);
         } else if (id == R.id.nav_Meditation) {
+
+            Intent intent = new Intent(this, RelaxOptsContent.class);
+            intent.putExtra(activity,"meditation");
+            startActivityForResult(intent,REQUEST_CODE);
 
         } else if (id == R.id.nav_Dance) {
 
+            Intent intent = new Intent(this, RelaxOptsContent.class);
+            intent.putExtra(activity,"dance");
+            startActivityForResult(intent,REQUEST_CODE);
+
         } else if (id == R.id.nav_Music) {
+
+            Intent intent = new Intent(this, RelaxOptsContent.class);
+            intent.putExtra(activity,"music");
+            startActivityForResult(intent,REQUEST_CODE);
 
         } else if (id == R.id.nav_Comedy) {
 
+            Intent intent = new Intent(this, RelaxOptsContent.class);
+            intent.putExtra(activity,"comedy");
+            startActivityForResult(intent,REQUEST_CODE);
+
         } else if (id == R.id.nav_TedTalks) {
+
+            Intent intent = new Intent(this, RelaxOptsContent.class);
+            intent.putExtra(activity,"tedtalk");
+            startActivityForResult(intent,REQUEST_CODE);
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(requestCode == 1001){
+            if (resultCode == RESULT_OK){
+                this.finish();
+            }
+        }
     }
 
     public void relax_like(View view){

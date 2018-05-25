@@ -1,5 +1,6 @@
 package com.example.anudeepthi.feelgood;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -8,7 +9,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,22 +21,41 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Yoga extends AppCompatActivity {
+public class RelaxOptsContent extends AppCompatActivity {
 
     private ArrayList<Integer> images;
     private BitmapFactory.Options options;
     private ViewPager viewPager;
     private FragmentStatePagerAdapter adapter;
     private LinearLayout thumbnailsContainer;
-    private final static int[] resourceIDs = new int[]{R.drawable.happy, R.drawable.excited, R.drawable.dont_know,
-                                                    R.drawable.pink_heart, R.drawable.very_angry,
-            R.drawable.happy, R.drawable.excited, R.drawable.dont_know,
-            R.drawable.pink_heart, R.drawable.very_angry};
+    private static int[] resourceIDs = new int[]{R.drawable.happy};
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_yoga);
+        setContentView(R.layout.activity_relax_content);
+
+        Intent intent = getIntent();
+        String activity = intent.getStringExtra(RelaxOptions.activity);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        if(activity.equals("yoga")){
+            resourceIDs = new int[]{R.drawable.yoga1, R.drawable.yoga2,R.drawable.yoga3, R.drawable.yoga4, R.drawable.yoga5, R.drawable.yoga6, R.drawable.yoga7};
+        }else if(activity.equals("meditation")){
+            resourceIDs = new int[]{R.drawable.meditation1, R.drawable.meditation2, R.drawable.meditation3, R.drawable.meditation4, R.drawable.meditation5, R.drawable.meditation6, R.drawable.shiva};
+        }else if(activity.equals("dance")){
+            resourceIDs = new int[]{R.drawable.dance1,R.drawable.dance2, R.drawable.dance3, R.drawable.dance4, R.drawable.dance5, R.drawable.dance6, R.drawable.dance7};
+        }else if(activity.equals("music")){
+            resourceIDs = new int[]{R.drawable.music1, R.drawable.music2, R.drawable.music3, R.drawable.music4, R.drawable.music5, R.drawable.music6, R.drawable.music7};
+        }else if(activity.equals("comedy")){
+            resourceIDs = new int[]{R.drawable.comedy,R.drawable.comedy1, R.drawable.comedy2, R.drawable.comedy3, R.drawable.comedy4, R.drawable.comedy6, R.drawable.comedy7};
+        }else if(activity.equals("tedtalk")){
+            resourceIDs = new int[]{R.drawable.tt1,R.drawable.tt2, R.drawable.tt3, R.drawable.tt4, R.drawable.tt5, R.drawable.tt6, R.drawable.tt7};
+        }
+
         images = new ArrayList<>();
 
         //find view by id
@@ -49,6 +72,7 @@ public class Yoga extends AppCompatActivity {
 
         inflateThumbnails();
     }
+
 
 
     private void setImagesData() {
@@ -83,6 +107,32 @@ public class Yoga extends AppCompatActivity {
         };
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.relax_options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_relax) {
+            finish();
+        }else if(id == R.id.action_dashboard){
+            setResult(RESULT_OK, null);
+            finish();
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public static class PageFragment extends Fragment {
 
         private int imageResource;
@@ -104,7 +154,7 @@ public class Yoga extends AppCompatActivity {
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            return inflater.inflate(R.layout.fragment_yoga, container, false);
+            return inflater.inflate(R.layout.fragment_relax_content, container, false);
         }
 
         @Override

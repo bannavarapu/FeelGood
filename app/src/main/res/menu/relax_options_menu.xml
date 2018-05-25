@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.anudeepthi.feelgood.RelaxOptsContent">
+    <item
+        android:id="@+id/action_relax"
+        android:orderInCategory="1"
+        android:title="Relax Options"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_dashboard"
+        android:orderInCategory="2"
+        android:title="Dashboard"
+        app:showAsAction="never" />
+</menu>
