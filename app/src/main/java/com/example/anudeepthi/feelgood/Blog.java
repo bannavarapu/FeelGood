@@ -24,6 +24,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Blog extends AppCompatActivity {
 
     /**
@@ -137,7 +140,7 @@ public class Blog extends AppCompatActivity {
             LinearLayoutManager layoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
             mRecyclerView.setLayoutManager(layoutManager);
             mRecyclerView.setHasFixedSize(true);
-
+            DatabaseReference blogRef = FirebaseDatabase.getInstance().getReference().child("blog_posts/");
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
                 String[] array = new String[]{"fav title", "fav user", "fav description"};
                 mAdapter = new BlogAdapter(context, array);
@@ -152,7 +155,6 @@ public class Blog extends AppCompatActivity {
                 String[] array = new String[]{"public title", "public user", "public description"};
                 mAdapter = new BlogAdapter(context, array);
                 mRecyclerView.setAdapter(mAdapter);
-
             }
 
             return rootView;

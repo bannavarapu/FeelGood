@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference mDatabaseReference;
     private ArrayList<String> factsToDisplay;
     private FirebaseDatabase mFirebaseDatabase;
-    private String mUserID =  "";
+    public static String mUserID =  "";
     public boolean flag = false;
     private ArrayList<String> firstName = new ArrayList<String>(Arrays.asList("Yung", "Dong", "Sang", "Choi", "lee", "Jung", "Huyn", "Jim", "Gun", "Wook"));
     private ArrayList<String> lastName = new ArrayList<String>(Arrays.asList("Noki", "Doshi", "Todota", "Ka Si", "Ki Na", "Modo Rika", "Ariku", "No Mo", "Hamadi", "Ting Wong"));
@@ -154,7 +154,6 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -345,12 +344,14 @@ public class MainActivity extends AppCompatActivity
     public void very_angry(View view){
         currentMood="anger";
         Toast.makeText(this,"I'm very angry",Toast.LENGTH_LONG).show();
-        System.out.println(Arrays.toString(factsToDisplay.toArray())+"full array");
+//        System.out.println(Arrays.toString(factsToDisplay.toArray())+"full array");
         factsToDisplay.clear();
-        System.out.println(Arrays.toString(factsToDisplay.toArray())+"empty array");
+//        System.out.println(Arrays.toString(factsToDisplay.toArray())+"empty array");
         fillDataSet(true);
     }
 
-
-
+    public static String getmUserID()
+    {
+        return mUserID;
+    }
 }
