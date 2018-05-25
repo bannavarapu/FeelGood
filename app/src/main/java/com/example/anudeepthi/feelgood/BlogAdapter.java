@@ -22,9 +22,11 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.BlogViewHolder
 
     Context context;
     ArrayList<Blog_format> array;
-    BlogAdapter(Context context, ArrayList<Blog_format> array){
+    boolean flag;
+    BlogAdapter(Context context, ArrayList<Blog_format> array, boolean flag){
         this.context = context;
         this.array = array;
+        this.flag = flag;
     }
 
     @NonNull
@@ -65,6 +67,10 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.BlogViewHolder
 
             }
         });
+        if(flag==true)
+        {
+            holder.heart.setVisibility(View.INVISIBLE);
+        }
 
     }
 

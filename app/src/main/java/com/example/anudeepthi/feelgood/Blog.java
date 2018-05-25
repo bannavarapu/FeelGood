@@ -142,13 +142,13 @@ public class Blog extends AppCompatActivity {
             return fragment;
         }
 
-        public void fillmyblogadapter(final Context context, ArrayList<Blog_format> blog_posts)
+        public void fillmyblogadapter(final Context context, ArrayList<Blog_format> blog_posts,boolean flag)
         {
-            mAdapter = new BlogAdapter(context, blog_posts);
+            mAdapter = new BlogAdapter(context, blog_posts,flag);
             mRecyclerView.setAdapter(mAdapter);
         }
 
-        public final void fillPosts(final Context context, final ArrayList<String> user_posts)
+        public final void fillPosts(final Context context, final ArrayList<String> user_posts, final boolean flag)
         {
             final ArrayList<Blog_format> myPosts = new ArrayList<>();
             for(String s : user_posts)
@@ -168,7 +168,7 @@ public class Blog extends AppCompatActivity {
                         myPosts.add(new Blog_format(forOne.get(3),forOne.get(2),forOne.get(1),forOne.get(0),forOne.get(4)));
                         if(myPosts.size()==user_posts.size())
                         {
-                            fillmyblogadapter(context, myPosts);
+                            fillmyblogadapter(context, myPosts, flag);
                         }
                     }
 
@@ -207,7 +207,7 @@ public class Blog extends AppCompatActivity {
                             if(!snap.getValue().toString().equals("dummy"))
                                 user_posts.add(snap.getValue().toString().split("_")[1]);
                         }
-                        fillPosts(context, user_posts);
+                        fillPosts(context, user_posts, true);
                     }
 
                     @Override
@@ -230,7 +230,7 @@ public class Blog extends AppCompatActivity {
                               if(!snap.getValue().toString().equals("dummy"))
                               user_posts.add(snap.getValue().toString().split("_")[1]);
                           }
-                          fillPosts(context, user_posts);
+                          fillPosts(context, user_posts, false);
                       }
 
                       @Override
@@ -254,7 +254,7 @@ public class Blog extends AppCompatActivity {
                                allposts.add(new Blog_format(singlepost.get("userId"),singlepost.get("title"),singlepost.get("postID"),singlepost.get("description"),singlepost.get("visibility")));
                            }
                        }
-                        mAdapter = new BlogAdapter(context, allposts);
+                        mAdapter = new BlogAdapter(context, allposts,false);
                         mRecyclerView.setAdapter(mAdapter);
                     }
                     @Override
