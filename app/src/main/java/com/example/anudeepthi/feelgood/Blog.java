@@ -2,6 +2,7 @@ package com.example.anudeepthi.feelgood;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,16 +17,25 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Blog extends AppCompatActivity {
 
@@ -46,6 +56,7 @@ public class Blog extends AppCompatActivity {
 
     private static RecyclerView mRecyclerView;
     private static BlogAdapter mAdapter;
+    static DatabaseReference blogRef = FirebaseDatabase.getInstance().getReference().child("blog_posts");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,30 +142,128 @@ public class Blog extends AppCompatActivity {
             return fragment;
         }
 
+        public void fillmyblogadapter(final Context context, ArrayList<Blog_format> blog_posts)
+        {
+            mAdapter = new BlogAdapter(context, blog_posts);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+
+        public final void fillPosts(final Context context, final ArrayList<String> user_posts)
+        {
+            final ArrayList<Blog_format> myPosts = new ArrayList<>();
+            for(String s : user_posts)
+            {
+                DatabaseReference newRef = blogRef.child(s);
+                newRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<String > forOne = new ArrayList<>();
+                        for(DataSnapshot post: dataSnapshot.getChildren())
+                        {
+
+                            Log.e("bhargavi",post.getValue().toString());
+                            forOne.add(post.getValue().toString());
+                        }
+
+                        myPosts.add(new Blog_format(forOne.get(3),forOne.get(2),forOne.get(1),forOne.get(0),forOne.get(4)));
+                        if(myPosts.size()==user_posts.size())
+                        {
+                            fillmyblogadapter(context, myPosts);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+        }
+
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+            DatabaseReference publicBlogRef = FirebaseDatabase.getInstance().getReference().child("blog_posts");
+            final ArrayList<Blog_format> allposts = new ArrayList<>();
             View rootView = inflater.inflate(R.layout.fragment_blog, container, false);
-            Context context = getContext();
+            final Context context = getContext();
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.blogView);
             LinearLayoutManager layoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
             mRecyclerView.setLayoutManager(layoutManager);
             mRecyclerView.setHasFixedSize(true);
-            DatabaseReference blogRef = FirebaseDatabase.getInstance().getReference().child("blog_posts/");
-            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-                String[] array = new String[]{"fav title", "fav user", "fav description"};
-                mAdapter = new BlogAdapter(context, array);
-                mRecyclerView.setAdapter(mAdapter);
+            final boolean[] flag = {false};
 
-            }else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
-                String[] array = new String[]{"my title", "my user", "my description"};
-                mAdapter = new BlogAdapter(context, array);
-                mRecyclerView.setAdapter(mAdapter);
+
+            if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
+
+                DatabaseReference userPostRef = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.getmUserID()).child("fav_blog");
+                userPostRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ArrayList<String> user_posts = new ArrayList<>();
+                        for(DataSnapshot snap: dataSnapshot.getChildren())
+                        {
+                            if(!snap.getValue().toString().equals("dummy"))
+                                user_posts.add(snap.getValue().toString().split("_")[1]);
+                        }
+                        fillPosts(context, user_posts);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+            }
+            else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
+
+
+
+                  DatabaseReference userPostRef = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.getmUserID()).child("my_blog");
+                  userPostRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                      @Override
+                      public void onDataChange(DataSnapshot dataSnapshot) {
+                          ArrayList<String> user_posts = new ArrayList<>();
+                          for(DataSnapshot snap: dataSnapshot.getChildren())
+                          {
+                              if(!snap.getValue().toString().equals("dummy"))
+                              user_posts.add(snap.getValue().toString().split("_")[1]);
+                          }
+                          fillPosts(context, user_posts);
+                      }
+
+                      @Override
+                      public void onCancelled(DatabaseError databaseError) {
+                      }
+                  });
+//                mAdapter = new BlogAdapter(context, array);
+//                mRecyclerView.setAdapter(mAdapter);
 
             }else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
-                String[] array = new String[]{"public title", "public user", "public description"};
-                mAdapter = new BlogAdapter(context, array);
-                mRecyclerView.setAdapter(mAdapter);
+
+                ValueEventListener tofillposts = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        allposts.clear();
+                       for(DataSnapshot post : dataSnapshot.getChildren())
+                       {
+                           final HashMap <String, String> singlepost = (HashMap<String, String>)post.getValue();
+                           if(singlepost.get("visibility").equals("public"))
+                           {
+                               allposts.add(new Blog_format(singlepost.get("userId"),singlepost.get("title"),singlepost.get("postID"),singlepost.get("description"),singlepost.get("visibility")));
+                           }
+                       }
+                        mAdapter = new BlogAdapter(context, allposts);
+                        mRecyclerView.setAdapter(mAdapter);
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                };
+                blogRef.addValueEventListener(tofillposts);
+
             }
 
             return rootView;
@@ -182,8 +291,7 @@ public class Blog extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+              return 3;
         }
 
         @Nullable

@@ -118,35 +118,7 @@ public class RelaxOptions extends AppCompatActivity
 
         mDatabaseReference.addValueEventListener(toFillSuggestions);
 
-//        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                String data = dataSnapshot.getValue(String.class);
-//                factsToDisplay.add(data);
-//                mRecyclerView.setAdapter(mAdapter);
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-            }
+}
 
     @Override
     public void onBackPressed() {

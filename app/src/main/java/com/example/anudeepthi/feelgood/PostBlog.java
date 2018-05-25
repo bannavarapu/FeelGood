@@ -86,7 +86,7 @@ public class PostBlog extends AppCompatActivity {
                         DatabaseReference postRef = mFirebaseDatabase.getReference().child("blog_posts");
                         postRef.child(post_number).setValue(blog);
                         DatabaseReference userPost = mFirebaseDatabase.getReference().child("users").child(userID).child("my_blog");
-                        userPost.child(post_number).setValue(blog);
+                        userPost.child(post_number).setValue("Blog_"+post_number);
 
                       }
                     else
@@ -95,7 +95,7 @@ public class PostBlog extends AppCompatActivity {
                             DatabaseReference postRef = mFirebaseDatabase.getReference().child("blog_posts");
                             postRef.child(post_number).setValue(blog);
                             DatabaseReference userPost = mFirebaseDatabase.getReference().child("users").child(userID).child("my_blog");
-                            userPost.child(post_number).setValue(blog);
+                            userPost.child(post_number).setValue("Blog_"+post_number);
                         }
                       finish();
 

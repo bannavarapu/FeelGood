@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String data = dataSnapshot.getValue(String.class);
                 factsToDisplay.add(data);
-                System.out.println(Arrays.toString(factsToDisplay.toArray()));
                 if(flag==true) {mAdapter.notifyDataSetChanged();}
                 else
                 {

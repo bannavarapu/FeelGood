@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +26,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.RelaxationViewHolder> implements View.OnClickListener{
 
@@ -103,10 +106,12 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
         final DatabaseReference refToUpdate = FirebaseDatabase.getInstance().getReference().child("relax_options").child(details[0]).child(details[1]);
         if(flag == true)
         {
+
             refToUpdate.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     long prev = (Long)dataSnapshot.child("likes").getValue();
+                    Toast.makeText(mContext,"you have liked this post!",Toast.LENGTH_LONG).show();
                     refToUpdate.child("likes").setValue(prev+1);
                 }
 
@@ -122,6 +127,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     long prev = (Long)dataSnapshot.child("dislikes").getValue();
+                    Toast.makeText(mContext,"hm.. we'll try getting better ones!",Toast.LENGTH_LONG).show();
                     refToUpdate.child("dislikes").setValue(prev+1);
                 }
 
