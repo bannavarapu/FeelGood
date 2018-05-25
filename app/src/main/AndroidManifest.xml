@@ -27,9 +27,13 @@
             android:name=".Blog"
             android:label="@string/title_activity_blog"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".PostBlog"
-            android:label="Write it out"></activity>
+        <activity
+            android:name=".PostBlog"
+            android:label="Write it out" />
+        <activity
+            android:name=".Yoga"
+            android:label="@string/title_activity_yoga"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

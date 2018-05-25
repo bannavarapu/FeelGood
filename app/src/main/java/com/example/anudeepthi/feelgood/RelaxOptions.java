@@ -160,7 +160,8 @@ public class RelaxOptions extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_Yoga) {
-            // Handle the camera action
+            Intent intent = new Intent(this, Yoga.class);
+            startActivity(intent);
         } else if (id == R.id.nav_Meditation) {
 
         } else if (id == R.id.nav_Dance) {
