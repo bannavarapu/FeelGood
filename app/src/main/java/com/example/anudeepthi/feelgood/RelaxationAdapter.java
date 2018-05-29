@@ -32,23 +32,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
 //    private StorageReference mStorageRef;
 
 
-    public static Bitmap getBitmapFromURL(String src) {
-        try {
-            Log.e("src",src);
-            URL url = new URL(src);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            Log.e("Bitmap","returned");
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("Exception",e.getMessage());
-            return null;
-        }
-    }
+
 
     public RelaxationAdapter(Context context,ArrayList<Relax_option_format> suggestionList){
         mContext = context;
@@ -80,7 +64,6 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
         holder.desc.setText(suggestionList.get(position).desc);
         String imgUrl = suggestionList.get(position).image;
         Glide.with(mContext).load(imgUrl).thumbnail(0.5f).into(holder.mainImg);
-//        holder.mainImg.setImageBitmap(getBitmapFromURL(suggestionList.get(position).image));
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
