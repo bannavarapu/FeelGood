@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".RelaxOptsContent$PageFragment">
 
     <ImageView
@@ -13,4 +13,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <VideoView
+            android:id="@+id/Video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"/>
+
+        <ImageView
+            android:id="@+id/play"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/play"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:onClick="play"/>
+
+    </FrameLayout>
+
+
+
+
+
+   
+
+</RelativeLayout>

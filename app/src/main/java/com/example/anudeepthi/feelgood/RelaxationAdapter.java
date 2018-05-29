@@ -1,5 +1,6 @@
 package com.example.anudeepthi.feelgood;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.StrictMode;
@@ -24,11 +25,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
+
 
 public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.RelaxationViewHolder> implements View.OnClickListener{
 
     Context mContext;
     ArrayList<Relax_option_format> suggestionList;
+    static String suggClick;
 //    private StorageReference mStorageRef;
 
 
@@ -62,12 +66,22 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
     public void onBindViewHolder(@NonNull RelaxationViewHolder holder, final int position) {
         holder.title.setText(suggestionList.get(position).title);
         holder.desc.setText(suggestionList.get(position).desc);
-        String imgUrl = suggestionList.get(position).image;
+        final String imgUrl = suggestionList.get(position).image;
         Glide.with(mContext).load(imgUrl).thumbnail(0.5f).into(holder.mainImg);
+        holder.mainImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,RelaxOptsContent.class);
+                suggClick = "suggClick";
+                String[] idSplit = suggestionList.get(position).id.split("_");
+                intent.putExtra(suggClick,idSplit[0]+";"+imgUrl);
+                mContext.startActivity(intent);
+            }
+        });
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,"you have liked this post!",Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext,"You liked this post!",Toast.LENGTH_LONG).show();
                 updateNumber(suggestionList.get(position).id, true);
 
             }

@@ -27,6 +27,7 @@
                 android:layout_height="150dp"
                 android:contentDescription="Main Image"
                 android:scaleType="centerCrop"
+                android:onClick="goToActivity"
                 android:src="@drawable/medi"/>
 
             <TextView
