@@ -1,5 +1,4 @@
 package com.example.anudeepthi.feelgood;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,26 +12,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.RelaxationViewHolder> implements View.OnClickListener{
 
     Context mContext;
     ArrayList<Relax_option_format> suggestionList;
+//    private StorageReference mStorageRef;
+
 
     public static Bitmap getBitmapFromURL(String src) {
         try {
@@ -78,13 +76,15 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
 
     @Override
     public void onBindViewHolder(@NonNull RelaxationViewHolder holder, final int position) {
-
         holder.title.setText(suggestionList.get(position).title);
         holder.desc.setText(suggestionList.get(position).desc);
-        holder.mainImg.setImageBitmap(getBitmapFromURL(suggestionList.get(position).image));
+        String imgUrl = suggestionList.get(position).image;
+        Glide.with(mContext).load(imgUrl).thumbnail(0.5f).into(holder.mainImg);
+//        holder.mainImg.setImageBitmap(getBitmapFromURL(suggestionList.get(position).image));
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(mContext,"you have liked this post!",Toast.LENGTH_LONG).show();
                 updateNumber(suggestionList.get(position).id, true);
 
             }
@@ -92,6 +92,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
         holder.dislike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(mContext,"hm.. we'll try getting better ones!",Toast.LENGTH_LONG).show();
                 updateNumber(suggestionList.get(position).id, false);
 
             }
@@ -111,7 +112,6 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     long prev = (Long)dataSnapshot.child("likes").getValue();
-                    Toast.makeText(mContext,"you have liked this post!",Toast.LENGTH_LONG).show();
                     refToUpdate.child("likes").setValue(prev+1);
                 }
 
@@ -127,7 +127,6 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     long prev = (Long)dataSnapshot.child("dislikes").getValue();
-                    Toast.makeText(mContext,"hm.. we'll try getting better ones!",Toast.LENGTH_LONG).show();
                     refToUpdate.child("dislikes").setValue(prev+1);
                 }
 
@@ -166,11 +165,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
             desc = (TextView) view.findViewById(R.id.description);
             like = (ImageView) view.findViewById(R.id.like);
             dislike = (ImageView) view.findViewById(R.id.dislike);
-
-
-
         }
-
 
     }
 }

@@ -85,13 +85,13 @@ public class RelaxOptions extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Relax_option_format option ;
-               String index1 = 1+"";
-               String index2 = 2+"";
-               suggestionsToDisplay.clear();
-               option = dataSnapshot.child("music").child(index1).getValue(Relax_option_format.class);
-               suggestionsToDisplay.add(option);
-               option = dataSnapshot.child("music").child(index2).getValue(Relax_option_format.class);
-               suggestionsToDisplay.add(option);
+                String index1 = 1+"";
+                String index2 = 2+"";
+                suggestionsToDisplay.clear();
+                option = dataSnapshot.child("music").child(index1).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
+                option = dataSnapshot.child("music").child(index2).getValue(Relax_option_format.class);
+                suggestionsToDisplay.add(option);
                 option = (Relax_option_format)dataSnapshot.child("dance").child(index1).getValue(Relax_option_format.class);
                 suggestionsToDisplay.add(option);
                 option = (Relax_option_format)dataSnapshot.child("dance").child(index2).getValue(Relax_option_format.class);
@@ -118,7 +118,7 @@ public class RelaxOptions extends AppCompatActivity
 
         mDatabaseReference.addValueEventListener(toFillSuggestions);
 
-}
+    }
 
     @Override
     public void onBackPressed() {
@@ -211,11 +211,4 @@ public class RelaxOptions extends AppCompatActivity
         }
     }
 
-    public void relax_like(View view){
-        //add code to what happens when user likes their relaxation suggestions
-    }
-
-    public void relax_dislike(View view){
-        //add code to what happens when user does not like their relaxation suggestions
-    }
 }

@@ -19,4 +19,5 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_yoga">Yoga</string>
     <string name="title_activity_meditation">Meditation</string>
+    <string name="title_activity_test">Test</string>
 </resources>

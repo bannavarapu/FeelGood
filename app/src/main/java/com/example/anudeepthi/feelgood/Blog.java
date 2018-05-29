@@ -160,8 +160,6 @@ public class Blog extends AppCompatActivity {
                         ArrayList<String > forOne = new ArrayList<>();
                         for(DataSnapshot post: dataSnapshot.getChildren())
                         {
-
-                            Log.e("bhargavi",post.getValue().toString());
                             forOne.add(post.getValue().toString());
                         }
 
@@ -196,7 +194,6 @@ public class Blog extends AppCompatActivity {
 
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
-
                 DatabaseReference userPostRef = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.getmUserID()).child("fav_blog");
                 userPostRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -218,8 +215,6 @@ public class Blog extends AppCompatActivity {
             }
             else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
 
-
-
                   DatabaseReference userPostRef = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.getmUserID()).child("my_blog");
                   userPostRef.addListenerForSingleValueEvent(new ValueEventListener() {
                       @Override
@@ -237,8 +232,7 @@ public class Blog extends AppCompatActivity {
                       public void onCancelled(DatabaseError databaseError) {
                       }
                   });
-//                mAdapter = new BlogAdapter(context, array);
-//                mRecyclerView.setAdapter(mAdapter);
+;
 
             }else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
 

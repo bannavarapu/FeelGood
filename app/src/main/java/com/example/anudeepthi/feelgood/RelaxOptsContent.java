@@ -45,7 +45,7 @@ public class RelaxOptsContent extends AppCompatActivity {
         if(activity.equals("yoga")){
             resourceIDs = new int[]{R.drawable.yoga1, R.drawable.yoga2,R.drawable.yoga3, R.drawable.yoga4, R.drawable.yoga5, R.drawable.yoga6, R.drawable.yoga7};
         }else if(activity.equals("meditation")){
-            resourceIDs = new int[]{R.drawable.meditation1, R.drawable.meditation2, R.drawable.meditation3, R.drawable.meditation4, R.drawable.meditation5, R.drawable.meditation6, R.drawable.shiva};
+            resourceIDs = new int[]{R.drawable.meditation1, R.drawable.meditation2, R.drawable.meditation3, R.drawable.meditation4, R.drawable.meditation5, R.drawable.meditation6, R.drawable.meditation_sun};
         }else if(activity.equals("dance")){
             resourceIDs = new int[]{R.drawable.dance1,R.drawable.dance2, R.drawable.dance3, R.drawable.dance4, R.drawable.dance5, R.drawable.dance6, R.drawable.dance7};
         }else if(activity.equals("music")){

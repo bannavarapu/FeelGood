@@ -283,6 +283,9 @@ public class MainActivity extends AppCompatActivity
             return true;
 
         } else if (id == R.id.nav_hotline) {
+            Intent intent = new Intent(this, Test.class);
+            startActivity(intent);
+            return true;
 
         } else if (id == R.id.nav_share) {
 
