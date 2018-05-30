@@ -36,6 +36,7 @@
             android:name=".RelaxOptsContent"
             android:label="@string/title_activity_yoga"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".WebApp"></activity>
     </application>
 
 </manifest>
