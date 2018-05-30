@@ -81,14 +81,29 @@ public class MainActivity extends AppCompatActivity
                 {
                     mUserTag = fillform();
                     Random rfunc = new Random();
-                    int firstNameId = rfunc.nextInt(10);
-                    int lastNameId = rfunc.nextInt(10);
-                    mUsername = firstName.get(firstNameId)+" "+lastName.get(lastNameId);
-                    TextView uname = (TextView) findViewById(R.id.textView);
-                    uname.setText(mUsername);
-                    User user = new User (mUsername, mUserTag);
-                    DatabaseReference  mUserdetailref =  FirebaseDatabase.getInstance().getReference().child("users");
-                    mUserdetailref.child(mUserID).setValue(user);
+                    final int firstNameId = rfunc.nextInt(10);
+                    final int lastNameId = rfunc.nextInt(10);
+                    final DatabaseReference togetusercount = FirebaseDatabase.getInstance().getReference().child("user_count");
+                    togetusercount.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String number = dataSnapshot.getValue().toString();
+                            togetusercount.setValue(Integer.parseInt(number)+1);
+                            mUsername = firstName.get(firstNameId)+" "+lastName.get(lastNameId)+number;
+                            TextView uname = (TextView) findViewById(R.id.textView);
+                            uname.setText(mUsername);
+                            User user = new User (mUsername, mUserTag);
+                            DatabaseReference  mUserdetailref =  FirebaseDatabase.getInstance().getReference().child("users");
+                            mUserdetailref.child(mUserID).setValue(user);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
 
             }
@@ -277,12 +292,14 @@ public class MainActivity extends AppCompatActivity
             return true;
 
         } else if (id == R.id.nav_blog) {
-
             Intent intent = new Intent(this, Blog.class);
             startActivity(intent);
             return true;
 
         } else if (id == R.id.nav_hotline) {
+            Intent intent = new Intent(this, Bunny.class);
+            startActivity(intent);
+            return true;
 
         } else if (id == R.id.nav_share) {
 
