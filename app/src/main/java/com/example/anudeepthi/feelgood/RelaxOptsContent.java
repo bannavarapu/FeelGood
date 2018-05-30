@@ -23,6 +23,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -49,7 +50,7 @@ public class RelaxOptsContent extends AppCompatActivity
     private LinearLayout thumbnailsContainer;
 
     private static String[] resourceIDUrls = new String[]{};
-    String activity = null;
+    static String activity = null;
     static String VMFlag = null;
     static String[] click;
     static String suggClick;
@@ -85,26 +86,21 @@ public class RelaxOptsContent extends AppCompatActivity
 
         if(activity.equals("yoga")){
             VMFlag = "image";
-
+            resourceIDUrls = new String[]{};
         }else if(activity.equals("meditation")){
             VMFlag = "image";
-
+            resourceIDUrls = new String[]{};
         }else if(activity.equals("dance")){
             VMFlag = "image";
-
+            resourceIDUrls = new String[]{};
         }else if(activity.equals("music")){
-            VMFlag = "music";
-            resourceIDUrls = new String[]{"https://firebasestorage.googleapis.com/v0/b/feelgood-58fe5.appspot.com/o/music1.jpg?alt=media&token=6007e86c-9105-446b-b7ce-af7baf459680", "https://firebasestorage.googleapis.com/v0/b/feelgood-58fe5.appspot.com/o/music4.jpg?alt=media&token=1405bfa8-bbe9-48d2-844b-83ecc0ec0724",
-                                                  "https://firebasestorage.googleapis.com/v0/b/feelgood-58fe5.appspot.com/o/music5.jpg?alt=media&token=eaaa8780-61a1-4fb0-958c-0e3fb3e286aa"};
+            VMFlag = "image";
+            resourceIDUrls = new String[]{};
 
         }else if(activity.equals("comedy")){
             VMFlag = "image";
 
-            resourceIDUrls = new String[]{"https://lh3.googleusercontent.com/TD4GYLXpB_OYLKHOd7CRg96bWYKDgYKVLKw39RpvJUxwEnAfws8yFaHhSe1gaO4PMtculxxB9A=w300","https://lh3.googleusercontent.com/PD5rCr4nzJ0CFcDnEf2pUst_1W_PL96I28SeNE_RMWAXnaRMO6QQtdovE5HPzIaa9M69e7ufTpQ=w300",
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4cqfi3GrbCAzcGs646e-7OfL5T6RSKmKWJAekmXQpbkLqvcpD", "http://data.freehdw.com/cityscapes-skylines-chicago-hdr-photography-high-resolution-images.jpg",
-                    "https://lh3.googleusercontent.com/TD4GYLXpB_OYLKHOd7CRg96bWYKDgYKVLKw39RpvJUxwEnAfws8yFaHhSe1gaO4PMtculxxB9A=w300", "https://lh3.googleusercontent.com/PD5rCr4nzJ0CFcDnEf2pUst_1W_PL96I28SeNE_RMWAXnaRMO6QQtdovE5HPzIaa9M69e7ufTpQ=w300",
-                    "http://idolza.com/a/f/h/hour-sleeping-music-calming-for-stress-relief-relaxation-sleep_calm-colors_what-color-furniture-goes-with-gray-walls-mood-meanings-teenage-room-colors-retro-house-decor-big-ki.jpg",
-                    "https://lh3.googleusercontent.com/QplltmIni6pRg87UqpM3-o9CFi-kGTejeZSzUdcr4WoaZ2s27CxoYbaeGY2nNtCihTJqR5Ee=w300" };
+            resourceIDUrls = new String[]{};
 
         }else if(activity.equals("tedtalk")){
             VMFlag = "image";
@@ -131,6 +127,8 @@ public class RelaxOptsContent extends AppCompatActivity
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
+
+
     }
 
 
@@ -230,17 +228,27 @@ public class RelaxOptsContent extends AppCompatActivity
         @Override
         public void onViewCreated(View view, Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            if(VMFlag.equals("image")){
-                ImageView imageView = (ImageView) view.findViewById(R.id.mainImage);
-                if(Flag){
-                    Glide.with(getContext()).load(click[1]).thumbnail(0.5f).into(imageView);
-                    Flag = false;
 
-                }else{
-                    Glide.with(getContext()).load(dataUrl).thumbnail(0.5f).into(imageView);
-                }
+            final ImageView imageView = (ImageView) view.findViewById(R.id.mainImage);
+            if(Flag){
+                Glide.with(getContext()).load(click[1]).thumbnail(0.5f).into(imageView);
+                Flag = false;
 
+            }else{
+                Glide.with(getContext()).load(dataUrl).thumbnail(0.5f).into(imageView);
             }
+
+            if(activity.equals("dance") || activity.equals("tedtalk") || activity.equals("music")){
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), WebApp.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+
+
         }
 
         @Override
