@@ -43,7 +43,6 @@ public class RelaxOptsContent extends AppCompatActivity
 
 
     private ArrayList<String> imageUrl;
-    private ArrayList<String> videoUrl;
 
     private ViewPager viewPager;
     private FragmentStatePagerAdapter adapter;
@@ -91,7 +90,7 @@ public class RelaxOptsContent extends AppCompatActivity
             VMFlag = "image";
 
         }else if(activity.equals("dance")){
-            VMFlag = "video";
+            VMFlag = "image";
 
         }else if(activity.equals("music")){
             VMFlag = "music";
@@ -108,14 +107,13 @@ public class RelaxOptsContent extends AppCompatActivity
                     "https://lh3.googleusercontent.com/QplltmIni6pRg87UqpM3-o9CFi-kGTejeZSzUdcr4WoaZ2s27CxoYbaeGY2nNtCihTJqR5Ee=w300" };
 
         }else if(activity.equals("tedtalk")){
-            VMFlag = "video";
-            resourceIDUrls = new String[]{"https://firebasestorage.googleapis.com/v0/b/friendlychatapp-682d2.appspot.com/o/VID-20141031-WA0001.mp4?alt=media&token=8e29e3ac-640c-4660-9d8c-7f75208cb610", "https://firebasestorage.googleapis.com/v0/b/friendlychatapp-682d2.appspot.com/o/VID-20141031-WA0000.mp4?alt=media&token=d32cb53b-2966-4ad1-a8bc-5daa50a644b8",
-                                            "https://firebasestorage.googleapis.com/v0/b/friendlychatapp-682d2.appspot.com/o/GeneYang_2016X-480p.mp4?alt=media&token=3967c52c-fc30-49cc-95c7-330dde01aa47"};
+            VMFlag = "image";
+            resourceIDUrls = new String[]{};
         }
 
 
         imageUrl = new ArrayList<>();
-        videoUrl = new ArrayList<>();
+
         //find view by id
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         thumbnailsContainer = (LinearLayout) findViewById(R.id.container);
@@ -124,9 +122,6 @@ public class RelaxOptsContent extends AppCompatActivity
 
         if(VMFlag.equals("image")){
             adapter = new ViewPagerAdapter(getSupportFragmentManager(), imageUrl);
-        }else if(VMFlag.equals("video")){
-            System.out.println("ArrayList    "+videoUrl);
-            adapter = new ViewPagerAdapter(getSupportFragmentManager(), videoUrl);
         }
 
         viewPager.setAdapter(adapter);
@@ -146,46 +141,13 @@ public class RelaxOptsContent extends AppCompatActivity
             for(int i=0; i<resourceIDUrls.length; i++){
                 imageUrl.add(resourceIDUrls[i]);
             }
-        }else if(VMFlag.equals("video")){
-            for(int i=0; i<resourceIDUrls.length; i++){
-                System.out.println("YES");
-                videoUrl.add(resourceIDUrls[i]);
-                System.out.println(resourceIDUrls[i]);
-            }
         }
 
 
 
     }
 
-    public static Bitmap retriveVideoFrameFromVideo(String videoPath)throws Throwable
-    {
-        Bitmap bitmap = null;
-        MediaMetadataRetriever mediaMetadataRetriever = null;
-        try
-        {
-            mediaMetadataRetriever = new MediaMetadataRetriever();
-            if (Build.VERSION.SDK_INT >= 14)
-                mediaMetadataRetriever.setDataSource(videoPath, new HashMap<String, String>());
-            else
-                mediaMetadataRetriever.setDataSource(videoPath);
-            //   mediaMetadataRetriever.setDataSource(videoPath);
-            bitmap = mediaMetadataRetriever.getFrameAtTime(15*1000000, MediaMetadataRetriever.OPTION_CLOSEST);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            throw new Throwable("Exception in retriveVideoFrameFromVideo(String videoPath)"+ e.getMessage());
-        }
-        finally
-        {
-            if (mediaMetadataRetriever != null)
-            {
-                mediaMetadataRetriever.release();
-            }
-        }
-        return bitmap;
-    }
+
 
 
 
@@ -201,15 +163,6 @@ public class RelaxOptsContent extends AppCompatActivity
                 Glide.with(context).load(imageUrl.get(i)).thumbnail(0.5f).into(imageView);
                 thumbnailsContainer.addView(thumbLayout);
             }
-        }else if(VMFlag.equals("video")){
-            for(int i=0; i<videoUrl.size(); i++){
-                View thumbLayout = getLayoutInflater().inflate(R.layout.relax_content_image, null);
-                ImageView imageView = (ImageView) thumbLayout.findViewById(R.id.img_thumb);
-                Bitmap frame = retriveVideoFrameFromVideo(videoUrl.get(i));
-                imageView.setOnClickListener(onChagePageClickListener(i));
-                imageView.setImageBitmap(frame);
-                thumbnailsContainer.addView(thumbLayout);
-            }
         }
 
     }
@@ -220,13 +173,6 @@ public class RelaxOptsContent extends AppCompatActivity
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(VMFlag.equals("video")){
-                    VideoView videoView = (VideoView) findViewById(R.id.Video);
-                    if(videoView.isPlaying()){
-                        videoView.pause();
-                        Toast.makeText(getApplicationContext(),"Video Paused!", Toast.LENGTH_LONG).show();
-                    }
-                }
                 viewPager.setCurrentItem(i);
             }
         };
@@ -286,11 +232,6 @@ public class RelaxOptsContent extends AppCompatActivity
             super.onViewCreated(view, savedInstanceState);
             if(VMFlag.equals("image")){
                 ImageView imageView = (ImageView) view.findViewById(R.id.mainImage);
-                imageView.setVisibility(view.VISIBLE);
-                ImageView playButton = (ImageView) view.findViewById(R.id.play);
-                playButton.setVisibility(view.GONE);
-                VideoView video = (VideoView) view.findViewById(R.id.Video);
-                video.setVisibility(view.GONE);
                 if(Flag){
                     Glide.with(getContext()).load(click[1]).thumbnail(0.5f).into(imageView);
                     Flag = false;
@@ -299,41 +240,7 @@ public class RelaxOptsContent extends AppCompatActivity
                     Glide.with(getContext()).load(dataUrl).thumbnail(0.5f).into(imageView);
                 }
 
-            }else if(VMFlag.equals("video")){
-                ImageView imageView = (ImageView) view.findViewById(R.id.mainImage);
-                imageView.setVisibility(view.GONE);
-                final ImageView playButton = (ImageView) view.findViewById(R.id.play);
-                playButton.setVisibility(view.VISIBLE);
-                final VideoView video = (VideoView) view.findViewById(R.id.Video);
-                video.setVisibility(view.VISIBLE);
-
-                Uri videoUri = Uri.parse(dataUrl);
-                video.setVideoURI(videoUri);
-
-                playButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        MediaController controller = new MediaController(getContext());
-                        controller.setAnchorView(video);
-                        video.setMediaController(controller);
-                        video.start();
-                        playButton.setVisibility(View.GONE);
-
-                    }
-                });
-
-                video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        playButton.setVisibility(View.VISIBLE);
-                    }
-                });
-
-
             }
-
-
         }
 
         @Override
