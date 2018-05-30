@@ -2,13 +2,6 @@ package com.example.anudeepthi.feelgood;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.AudioManager;
-import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,32 +12,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
-import android.widget.Toast;
-import android.widget.VideoView;
+
 
 import com.bumptech.glide.Glide;
-
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class RelaxOptsContent extends AppCompatActivity
 {
-
-
     private ArrayList<String> imageUrl;
-
     private ViewPager viewPager;
     private FragmentStatePagerAdapter adapter;
     private LinearLayout thumbnailsContainer;
@@ -96,12 +78,9 @@ public class RelaxOptsContent extends AppCompatActivity
         }else if(activity.equals("music")){
             VMFlag = "image";
             resourceIDUrls = new String[]{};
-
         }else if(activity.equals("comedy")){
             VMFlag = "image";
-
             resourceIDUrls = new String[]{};
-
         }else if(activity.equals("tedtalk")){
             VMFlag = "image";
             resourceIDUrls = new String[]{};
