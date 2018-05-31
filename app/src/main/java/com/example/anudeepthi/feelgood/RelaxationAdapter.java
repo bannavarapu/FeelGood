@@ -65,8 +65,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
             public void onClick(View v) {
                 Intent intent = new Intent(mContext,RelaxOptsContent.class);
                 suggClick = "suggClick";
-                String[] idSplit = suggestionList.get(position).id.split("_");
-                intent.putExtra(suggClick,idSplit[0]+";"+imgUrl);
+                intent.putExtra(suggClick,suggestionList.get(position).id+";"+imgUrl);
                 mContext.startActivity(intent);
             }
         });

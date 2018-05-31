@@ -38,6 +38,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Bunny" />
         <activity android:name=".MainFacts"></activity>
+        <activity android:name=".WebApp"></activity>
     </application>
 
 </manifest>

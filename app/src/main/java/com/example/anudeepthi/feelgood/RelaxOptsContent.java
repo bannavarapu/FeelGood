@@ -2,6 +2,7 @@ package com.example.anudeepthi.feelgood;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,13 +33,18 @@ import java.util.List;
 public class RelaxOptsContent extends AppCompatActivity
 {
     private ArrayList<String> imageUrl;
+    private ArrayList<String> activityUrl;
     private ViewPager viewPager;
     private FragmentStatePagerAdapter adapter;
     private LinearLayout thumbnailsContainer;
     private static ArrayList<String> resourceIDUrls = new ArrayList<>();
+    private static ArrayList<String> resourceLinks = new ArrayList<>();
     static String activity = null;
     static String VMFlag = null;
     static String[] click;
+    static String[] actId;
+    static Integer id;
+    final static String Url = "Url";
     static String suggClick;
     static boolean Flag = false;
 
@@ -53,6 +59,7 @@ public class RelaxOptsContent extends AppCompatActivity
                 for(DataSnapshot each : dataSnapshot.getChildren())
                 {
                     resourceIDUrls.add(each.child("image").getValue().toString());
+                    resourceLinks.add(each.child("url").getValue().toString());
                 }
 
                 setStage();
@@ -74,22 +81,25 @@ public class RelaxOptsContent extends AppCompatActivity
 
         Intent intent = getIntent();
         activity = intent.getStringExtra(RelaxOptions.activity);
-        System.out.println(activity);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Intent intent2 = getIntent();
-        System.out.println(suggClick);
         suggClick = intent2.getStringExtra(RelaxationAdapter.suggClick);
-        System.out.println(suggClick);
+
         if(suggClick != null){
             click = suggClick.split(";");
             suggClick = null;
             if(click.length > 1){
                 Flag = true;
+                actId = click[0].split("_");
+                activity = actId[0];
+                id = Integer.parseInt(actId[1]);
+            }else {
+                activity = click[0];
             }
-            System.out.println(Arrays.toString(click));
-            activity = click[0];
+
         }
 
 
@@ -119,6 +129,7 @@ public class RelaxOptsContent extends AppCompatActivity
     private void setStage()
     {
         imageUrl = new ArrayList<>();
+        activityUrl = new ArrayList<>();
 
         //find view by id
         viewPager = (ViewPager) findViewById(R.id.view_pager);
@@ -131,6 +142,9 @@ public class RelaxOptsContent extends AppCompatActivity
         }
 
         viewPager.setAdapter(adapter);
+        if(Flag){
+            viewPager.setCurrentItem(id-1);
+        }
 
         try {
             inflateThumbnails();
@@ -145,7 +159,7 @@ public class RelaxOptsContent extends AppCompatActivity
 
         if(VMFlag.equals("image")){
             for(int i=0; i<resourceIDUrls.size(); i++){
-                imageUrl.add(resourceIDUrls.get(i));
+                imageUrl.add(resourceIDUrls.get(i)+";"+resourceLinks.get(i));
             }
         }
 
@@ -161,10 +175,11 @@ public class RelaxOptsContent extends AppCompatActivity
         Context context = getApplicationContext();
         if(VMFlag.equals("image")){
             for(int i=0; i<imageUrl.size(); i++) {
+                String mainImage = imageUrl.get(i).split(";")[0];
                 View thumbLayout = getLayoutInflater().inflate(R.layout.relax_content_image, null);
                 ImageView imageView = (ImageView) thumbLayout.findViewById(R.id.img_thumb);
                 imageView.setOnClickListener(onChagePageClickListener(i));
-                Glide.with(context).load(imageUrl.get(i)).thumbnail(0.5f).into(imageView);
+                Glide.with(context).load(mainImage).thumbnail(0.5f).into(imageView);
                 thumbnailsContainer.addView(thumbLayout);
             }
         }
@@ -224,6 +239,7 @@ public class RelaxOptsContent extends AppCompatActivity
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             dataUrl = getArguments().getString("data_url");
+
         }
 
         @Override
@@ -236,19 +252,19 @@ public class RelaxOptsContent extends AppCompatActivity
             super.onViewCreated(view, savedInstanceState);
 
             final ImageView imageView = (ImageView) view.findViewById(R.id.mainImage);
-            if(Flag){
-                Glide.with(getContext()).load(click[1]).thumbnail(0.5f).into(imageView);
-                Flag = false;
+            String mainImage;
+            final String url;
+            mainImage = dataUrl.split(";")[0];
+            url = dataUrl.split(";")[1];
+            Glide.with(getContext()).load(mainImage).thumbnail(0.5f).into(imageView);
 
-            }else{
-                Glide.with(getContext()).load(dataUrl).thumbnail(0.5f).into(imageView);
-            }
 
-            if(activity.equals("dance") || activity.equals("tedtalk") || activity.equals("music")){
+            if(!url.equals("null")){
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), WebApp.class);
+                        intent.putExtra(Url,url);
                         startActivity(intent);
                     }
                 });
@@ -277,6 +293,7 @@ public class RelaxOptsContent extends AppCompatActivity
         public Fragment getItem(int position) {
             return PageFragment.newInstance(dataUrl.get(position));
         }
+
 
         @Override
         public int getCount() {
