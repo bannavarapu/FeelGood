@@ -36,7 +36,8 @@
             android:name=".RelaxOptsContent"
             android:label="@string/title_activity_yoga"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Bunny"></activity>
+        <activity android:name=".Bunny" />
+        <activity android:name=".MainFacts"></activity>
     </application>
 
 </manifest>

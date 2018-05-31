@@ -1,12 +1,9 @@
 package com.example.anudeepthi.feelgood;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +16,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
 
-import static android.support.v4.app.ActivityCompat.startActivityForResult;
+import java.util.ArrayList;
 
 
 public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.RelaxationViewHolder> implements View.OnClickListener{
@@ -48,7 +40,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
     public RelaxationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         Context context = parent.getContext();
-        int layoutid = R.layout.relax_opts_main;
+        int layoutid = R.layout.relax_opts_rv;
         LayoutInflater inflater = LayoutInflater.from(context);
         if (android.os.Build.VERSION.SDK_INT > 9)
         {
@@ -101,7 +93,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
     public void updateNumber(String id, boolean flag)
     {
         String [] details = id.split("_");
-        final DatabaseReference refToUpdate = FirebaseDatabase.getInstance().getReference().child("relax_options").child(details[0]).child(details[1]);
+        final DatabaseReference refToUpdate = FirebaseDatabase.getInstance().getReference().child("dashboard").child(details[0]).child(details[1]);
         if(flag == true)
         {
 

@@ -3,13 +3,8 @@ package com.example.anudeepthi.feelgood;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,10 +29,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity
@@ -267,9 +258,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }else if(id == R.id.action_signout){
+       if(id == R.id.action_signout){
             AuthUI.getInstance().signOut(this);
             return true;
         }
@@ -296,10 +285,18 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             return true;
 
-        } else if (id == R.id.nav_hotline) {
+        } else if (id == R.id.nav_facts){
+            Intent intent = new Intent(this, MainFacts.class);
+            startActivity(intent);
+            return true;
+
+        }else if (id == R.id.bunny){
             Intent intent = new Intent(this, Bunny.class);
             startActivity(intent);
             return true;
+
+        } else if (id == R.id.nav_hotline) {
+
 
         } else if (id == R.id.nav_share) {
 

@@ -20,6 +20,12 @@
             android:id="@+id/nav_facts"
             android:icon="@drawable/baseline_library_books_black_18dp"
             android:title="Facts" />
+
+        <item
+            android:id="@+id/bunny"
+            android:title="Catch the Bunny!"
+            android:icon="@drawable/bunny"/>
+
         <item
             android:id="@+id/nav_hotline"
             android:icon="@drawable/call"
