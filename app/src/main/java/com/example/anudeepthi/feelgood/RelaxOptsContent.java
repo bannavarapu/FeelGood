@@ -14,12 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,13 +35,35 @@ public class RelaxOptsContent extends AppCompatActivity
     private ViewPager viewPager;
     private FragmentStatePagerAdapter adapter;
     private LinearLayout thumbnailsContainer;
-
-    private static String[] resourceIDUrls = new String[]{};
+    private static ArrayList<String> resourceIDUrls = new ArrayList<>();
     static String activity = null;
     static String VMFlag = null;
     static String[] click;
     static String suggClick;
     static boolean Flag = false;
+
+
+    private void fillData (String category)
+    {
+        resourceIDUrls = new ArrayList<>();
+        DatabaseReference toAdd = FirebaseDatabase.getInstance().getReference().child("relax_options").child(category);
+        toAdd.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot each : dataSnapshot.getChildren())
+                {
+                    resourceIDUrls.add(each.child("image").getValue().toString());
+                }
+
+                setStage();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 
 
@@ -68,25 +95,29 @@ public class RelaxOptsContent extends AppCompatActivity
 
         if(activity.equals("yoga")){
             VMFlag = "image";
-            resourceIDUrls = new String[]{};
+            fillData("yoga");
         }else if(activity.equals("meditation")){
             VMFlag = "image";
-            resourceIDUrls = new String[]{};
+            fillData("meditation");
         }else if(activity.equals("dance")){
             VMFlag = "image";
-            resourceIDUrls = new String[]{};
+            fillData("dance");
         }else if(activity.equals("music")){
             VMFlag = "image";
-            resourceIDUrls = new String[]{};
+            fillData("music");
         }else if(activity.equals("comedy")){
             VMFlag = "image";
-            resourceIDUrls = new String[]{};
+            fillData("comedy");
         }else if(activity.equals("tedtalk")){
             VMFlag = "image";
-            resourceIDUrls = new String[]{};
+            fillData("tedtalk");
         }
 
 
+    }
+
+    private void setStage()
+    {
         imageUrl = new ArrayList<>();
 
         //find view by id
@@ -106,8 +137,6 @@ public class RelaxOptsContent extends AppCompatActivity
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-
-
     }
 
 
@@ -115,8 +144,8 @@ public class RelaxOptsContent extends AppCompatActivity
     private void setData() {
 
         if(VMFlag.equals("image")){
-            for(int i=0; i<resourceIDUrls.length; i++){
-                imageUrl.add(resourceIDUrls[i]);
+            for(int i=0; i<resourceIDUrls.size(); i++){
+                imageUrl.add(resourceIDUrls.get(i));
             }
         }
 
@@ -129,8 +158,6 @@ public class RelaxOptsContent extends AppCompatActivity
 
 
     private void inflateThumbnails() throws Throwable {
-
-
         Context context = getApplicationContext();
         if(VMFlag.equals("image")){
             for(int i=0; i<imageUrl.size(); i++) {
