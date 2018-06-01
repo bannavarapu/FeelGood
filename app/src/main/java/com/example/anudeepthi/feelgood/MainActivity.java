@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity
     private String mUserTag = "";
     static boolean formFlag = false;
 
-    private  String fillform() {
+    private String fillform() {
         Button formButton = (Button) findViewById(R.id.fillForm);
         formButton.setVisibility(View.VISIBLE);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_facts);
@@ -323,15 +323,15 @@ public class MainActivity extends AppCompatActivity
     private void onSignedInInitialize(String username) {
         mUsername = username;
         DatabaseReference userExists = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userName");
-       final DatabaseReference formTag = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userTag");
+        final DatabaseReference formTag = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userTag");
         userExists.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     formTag.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            if(dataSnapshot.getValue().toString().equals("Tag")){
+                            if (dataSnapshot.getValue().toString().equals("Tag")) {
                                 fillform();
                             }
                         }
