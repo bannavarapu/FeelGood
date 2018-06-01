@@ -114,23 +114,23 @@ public class Bunny extends AppCompatActivity {
     {
         if(score<10)
         {
-            fps=950;
+            fps=850;
         }
         else if(score>=10 && score<20)
         {
-            fps=900;
+            fps=800;
         }
         else if(score>=20 && score<30)
         {
-            fps=850;
+            fps=750;
         }
         else if(score>=30 && score<40)
         {
-            fps=800;
+            fps=700;
         }
         else if(score>=40 && score<50)
         {
-            fps=750;
+            fps=650;
         }
         else
         {
@@ -185,6 +185,8 @@ public class Bunny extends AppCompatActivity {
                 if(left==0)
                 {
                     Toast.makeText(Bunny.this,"Game Over, you scored "+score+" points",Toast.LENGTH_LONG).show();
+                    flag=true;
+                    counter.cancel();
                     button.setEnabled(true);
                 }
                 else if(left>0 && flag==true)

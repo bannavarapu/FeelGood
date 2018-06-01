@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity
     private String mUserTag = "";
     static boolean formFlag = false;
 
-    private String fillform() {
+    private void fillform() {
         Button formButton = (Button) findViewById(R.id.fillForm);
         formButton.setVisibility(View.VISIBLE);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_facts);
@@ -66,7 +67,28 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        return "Tag";
+     }
+
+    private void checkUserTag(){
+        DatabaseReference fortag = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID);
+        fortag.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists())
+                {
+                    if(dataSnapshot.child("userTag").getValue().toString().equals("Tag"))
+                    {
+                        fillform();
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void getusername() {
@@ -78,8 +100,9 @@ public class MainActivity extends AppCompatActivity
                     mUsername = dataSnapshot.getValue().toString();
                     TextView uname = (TextView) findViewById(R.id.textView);
                     uname.setText(mUsername);
-                } else {
+                    checkUserTag();
 
+                } else {
                     Random rfunc = new Random();
                     final int firstNameId = rfunc.nextInt(10);
                     final int lastNameId = rfunc.nextInt(10);
@@ -97,6 +120,7 @@ public class MainActivity extends AppCompatActivity
                             User user = new User(mUsername, "Tag");
                             DatabaseReference mUserdetailref = FirebaseDatabase.getInstance().getReference().child("users");
                             mUserdetailref.child(mUserID).setValue(user);
+                            checkUserTag();
 
                         }
 
@@ -308,7 +332,6 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_hotline) {
 
-
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -322,35 +345,6 @@ public class MainActivity extends AppCompatActivity
 
     private void onSignedInInitialize(String username) {
         mUsername = username;
-        DatabaseReference userExists = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userName");
-        final DatabaseReference formTag = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userTag");
-        userExists.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    formTag.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.getValue().toString().equals("Tag")) {
-                                fillform();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
     }
 
     private void onSignedOutCleanUp() {
@@ -396,9 +390,7 @@ public class MainActivity extends AppCompatActivity
     public void very_angry(View view) {
         currentMood = "anger";
         Toast.makeText(this, "I'm very angry", Toast.LENGTH_LONG).show();
-//        System.out.println(Arrays.toString(factsToDisplay.toArray())+"full array");
         factsToDisplay.clear();
-//        System.out.println(Arrays.toString(factsToDisplay.toArray())+"empty array");
         fillDataSet(true);
     }
 
