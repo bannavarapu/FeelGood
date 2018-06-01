@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,47 +46,56 @@ public class MainActivity extends AppCompatActivity
     private DatabaseReference mDatabaseReference;
     private ArrayList<String> factsToDisplay;
     private FirebaseDatabase mFirebaseDatabase;
-    public static String mUserID =  "";
+    public static String mUserID = "";
     public boolean flag = false;
     private ArrayList<String> firstName = new ArrayList<String>(Arrays.asList("Yung", "Dong", "Sang", "Choi", "lee", "Jung", "Huyn", "Jim", "Gun", "Wook"));
     private ArrayList<String> lastName = new ArrayList<String>(Arrays.asList("Noki", "Doshi", "Todota", "Ka Si", "Ki Na", "Modo Rika", "Ariku", "No Mo", "Hamadi", "Ting Wong"));
     private String mUserTag = "";
+    static boolean formFlag = false;
 
-    private String fillform()
-    {
-        Toast.makeText(this, "Bro you need to fill up a form!", Toast.LENGTH_LONG).show();
+    private  String fillform() {
+        Button formButton = (Button) findViewById(R.id.fillForm);
+        formButton.setVisibility(View.VISIBLE);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_facts);
+        recyclerView.setVisibility(View.GONE);
+
+        formButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), FillFormApp.class);
+                startActivity(intent);
+            }
+        });
         return "Tag";
     }
 
-    private void getusername ()
-    {
-        DatabaseReference  mUserdetailref =  FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userName");
+    private void getusername() {
+        DatabaseReference mUserdetailref = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userName");
         ValueEventListener tocheckuser = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists())
-                {
+                if (dataSnapshot.exists()) {
                     mUsername = dataSnapshot.getValue().toString();
                     TextView uname = (TextView) findViewById(R.id.textView);
                     uname.setText(mUsername);
-                }
-                else
-                {
-                    mUserTag = fillform();
+                } else {
+
                     Random rfunc = new Random();
                     final int firstNameId = rfunc.nextInt(10);
                     final int lastNameId = rfunc.nextInt(10);
                     final DatabaseReference togetusercount = FirebaseDatabase.getInstance().getReference().child("user_count");
+                    final DatabaseReference fillFormTag = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userTag");
                     togetusercount.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             String number = dataSnapshot.getValue().toString();
-                            togetusercount.setValue(Integer.parseInt(number)+1);
-                            mUsername = firstName.get(firstNameId)+" "+lastName.get(lastNameId)+number;
+                            System.out.println(number);
+                            togetusercount.setValue(Integer.parseInt(number) + 1);
+                            mUsername = firstName.get(firstNameId) + " " + lastName.get(lastNameId) + number;
                             TextView uname = (TextView) findViewById(R.id.textView);
                             uname.setText(mUsername);
-                            User user = new User (mUsername, mUserTag);
-                            DatabaseReference  mUserdetailref =  FirebaseDatabase.getInstance().getReference().child("users");
+                            User user = new User(mUsername, "Tag");
+                            DatabaseReference mUserdetailref = FirebaseDatabase.getInstance().getReference().child("users");
                             mUserdetailref.child(mUserID).setValue(user);
 
                         }
@@ -98,6 +109,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -108,19 +120,18 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    protected void fillDataSet(final boolean flag)
-    {
+    protected void fillDataSet(final boolean flag) {
         this.flag = flag;
-        String link="facts/"+currentMood+"/";
+        String link = "facts/" + currentMood + "/";
         mDatabaseReference = mFirebaseDatabase.getReference().child(link);
         mDatabaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String data = dataSnapshot.getValue(String.class);
                 factsToDisplay.add(data);
-                if(flag==true) {mAdapter.notifyDataSetChanged();}
-                else
-                {
+                if (flag == true) {
+                    mAdapter.notifyDataSetChanged();
+                } else {
                     mRecyclerView.setAdapter(mAdapter);
                 }
 
@@ -155,7 +166,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         mUsername = "DEFAULT";
         mFirebaseAuth = FirebaseAuth.getInstance();
-        currentMood="dont_know";
+        currentMood = "dont_know";
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -172,10 +183,10 @@ public class MainActivity extends AppCompatActivity
 
         factsToDisplay = new ArrayList<String>();
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_facts);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new FactsAdapter(this,factsToDisplay);
+        mAdapter = new FactsAdapter(this, factsToDisplay);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         fillDataSet(false);
 
@@ -183,12 +194,12 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null){
-                mUserID = user.getUid();
-                onSignedInInitialize(user.getDisplayName());
-                getusername();
-                }
-                else{
+                if (user != null) {
+                    mUserID = user.getUid();
+                    onSignedInInitialize(user.getDisplayName());
+                    getusername();
+
+                } else {
                     onSignedOutCleanUp();
                     startActivityForResult(
                             AuthUI.getInstance()
@@ -208,10 +219,10 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RC_SIGN_IN){
-            if(resultCode == RESULT_OK){
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == RESULT_OK) {
                 Toast.makeText(this, "Signed In!", Toast.LENGTH_LONG).show();
-            }else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Signed In Cancelled!", Toast.LENGTH_LONG).show();
                 finish();
             }
@@ -258,7 +269,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-       if(id == R.id.action_signout){
+        if (id == R.id.action_signout) {
             AuthUI.getInstance().signOut(this);
             return true;
         }
@@ -285,12 +296,12 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             return true;
 
-        } else if (id == R.id.nav_facts){
+        } else if (id == R.id.nav_facts) {
             Intent intent = new Intent(this, MainFacts.class);
             startActivity(intent);
             return true;
 
-        }else if (id == R.id.bunny){
+        } else if (id == R.id.bunny) {
             Intent intent = new Intent(this, Bunny.class);
             startActivity(intent);
             return true;
@@ -309,62 +320,89 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void onSignedInInitialize(String username){
+    private void onSignedInInitialize(String username) {
         mUsername = username;
+        DatabaseReference userExists = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userName");
+       final DatabaseReference formTag = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID).child("userTag");
+        userExists.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    formTag.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.getValue().toString().equals("Tag")){
+                                fillform();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
-    private void onSignedOutCleanUp(){
+    private void onSignedOutCleanUp() {
         mUsername = "DEFAULT";
     }
 
 
-    public void excited(View view){
-        currentMood="excited";
-        Toast.makeText(this,"I'm excited",Toast.LENGTH_LONG).show();
+    public void excited(View view) {
+        currentMood = "excited";
+        Toast.makeText(this, "I'm excited", Toast.LENGTH_LONG).show();
         factsToDisplay.clear();
         fillDataSet(true);
     }
 
-    public void happy(View view)
-    {
-        currentMood="happy";
-        Toast.makeText(this,"I'm happy",Toast.LENGTH_LONG).show();
+    public void happy(View view) {
+        currentMood = "happy";
+        Toast.makeText(this, "I'm happy", Toast.LENGTH_LONG).show();
         factsToDisplay.clear();
         fillDataSet(true);
     }
 
-    public void dont_know(View view){
-        currentMood="dont_know";
-        Toast.makeText(this,"I'm not sure",Toast.LENGTH_LONG).show();
+    public void dont_know(View view) {
+        currentMood = "dont_know";
+        Toast.makeText(this, "I'm not sure", Toast.LENGTH_LONG).show();
         factsToDisplay.clear();
         fillDataSet(true);
     }
 
-    public void sad(View view){
-        currentMood="sad";
-        Toast.makeText(this,"I'm sad",Toast.LENGTH_LONG).show();
+    public void sad(View view) {
+        currentMood = "sad";
+        Toast.makeText(this, "I'm sad", Toast.LENGTH_LONG).show();
         factsToDisplay.clear();
         fillDataSet(true);
     }
 
-    public void very_sad(View view){
-        currentMood="very_sad";
-        Toast.makeText(this,"I'm very sad",Toast.LENGTH_LONG).show();
+    public void very_sad(View view) {
+        currentMood = "very_sad";
+        Toast.makeText(this, "I'm very sad", Toast.LENGTH_LONG).show();
         factsToDisplay.clear();
         fillDataSet(true);
     }
 
-    public void very_angry(View view){
-        currentMood="anger";
-        Toast.makeText(this,"I'm very angry",Toast.LENGTH_LONG).show();
+    public void very_angry(View view) {
+        currentMood = "anger";
+        Toast.makeText(this, "I'm very angry", Toast.LENGTH_LONG).show();
 //        System.out.println(Arrays.toString(factsToDisplay.toArray())+"full array");
         factsToDisplay.clear();
 //        System.out.println(Arrays.toString(factsToDisplay.toArray())+"empty array");
         fillDataSet(true);
     }
 
-    public static String getmUserID()
-    {
+    public static String getmUserID() {
         return mUserID;
     }
 }

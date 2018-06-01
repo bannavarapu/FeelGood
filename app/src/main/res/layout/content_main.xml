@@ -81,6 +81,13 @@
 
     </LinearLayout>
 
+    <Button
+        android:visibility="gone"
+        android:id="@+id/fillForm"
+        android:text="Fill Form"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_facts"
@@ -90,5 +97,7 @@
         android:layout_marginTop="32dp">
 
     </android.support.v7.widget.RecyclerView>
+
+
 
 </LinearLayout>

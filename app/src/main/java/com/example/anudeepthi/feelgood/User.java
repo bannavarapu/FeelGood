@@ -10,10 +10,12 @@ public class User {
 
     public User(String userName, String userTag)
     {
+        System.out.println("Here too");
         this.userName = userName;
         this.userTag = userTag;
         fav_blog.put("0","dummy");
         my_blog.put("0","dummy");
+        MainActivity.formFlag = true;
     }
 
     public User ()
