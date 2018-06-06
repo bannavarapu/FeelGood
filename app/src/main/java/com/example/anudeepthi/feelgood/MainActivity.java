@@ -53,14 +53,16 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> lastName = new ArrayList<String>(Arrays.asList("Noki", "Doshi", "Todota", "Ka Si", "Ki Na", "Modo Rika", "Ariku", "No Mo", "Hamadi", "Ting Wong"));
     private String mUserTag = "";
     static boolean formFlag = false;
+    static RecyclerView facts_rv;
+    static Button fillFormButton;
 
     private void fillform() {
-        Button formButton = (Button) findViewById(R.id.fillForm);
-        formButton.setVisibility(View.VISIBLE);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv_facts);
-        recyclerView.setVisibility(View.GONE);
+        fillFormButton = (Button) findViewById(R.id.fillForm);
+        fillFormButton.setVisibility(View.VISIBLE);
+        facts_rv = (RecyclerView) findViewById(R.id.rv_facts);
+        facts_rv.setVisibility(View.GONE);
 
-        formButton.setOnClickListener(new View.OnClickListener() {
+        fillFormButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), FillFormApp.class);
@@ -307,9 +309,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_prog) {
-            // Handle the camera action
-        } else if (id == R.id.nav_relax) {
+        if (id == R.id.nav_relax) {
 
             Intent intent = new Intent(this, RelaxOptions.class);
             startActivity(intent);

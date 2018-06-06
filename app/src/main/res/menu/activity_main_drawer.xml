@@ -5,10 +5,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_prog"
-            android:icon="@drawable/baseline_tune_black_18dp"
-            android:title="Progress" />
-        <item
             android:id="@+id/nav_relax"
             android:icon="@drawable/baseline_insert_emoticon_black_18dp"
             android:title="Relax" />

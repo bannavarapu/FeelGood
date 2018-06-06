@@ -1,9 +1,19 @@
 package com.example.anudeepthi.feelgood;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class FillFormApp extends AppCompatActivity {
 
@@ -29,5 +39,26 @@ public class FillFormApp extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
+        DatabaseReference checkTag = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.mUserID).child("userTag");
+        checkTag.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.getValue().toString().equals("Tag")){
+                    MainActivity.facts_rv.setVisibility(View.VISIBLE);
+                    MainActivity.fillFormButton.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
 }

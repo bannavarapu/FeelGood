@@ -60,6 +60,7 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.BlogViewHolder
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 holder.username.setText(dataSnapshot.getValue().toString());
+
             }
 
             @Override

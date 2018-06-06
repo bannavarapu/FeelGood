@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp"
     android:orientation="vertical">
 
     <android.support.v7.widget.CardView
@@ -11,16 +13,20 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="3dp"
-        card_view:cardElevation="0.7dp"
-        card_view:cardMaxElevation="1dp"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="2dp"
+        card_view:cardMaxElevation="3dp"
         card_view:cardPreventCornerOverlap="false"
         card_view:cardUseCompatPadding="true">
         <TextView
+            android:padding="10dp"
+            android:textAlignment="center"
             android:id="@+id/fact"
+            android:textColor="#757575"
+            android:lineSpacingExtra="7dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="32sp"/>
+            android:textSize="20sp"/>
     </android.support.v7.widget.CardView>
 
 

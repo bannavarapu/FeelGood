@@ -15,7 +15,7 @@ public class User {
         this.userTag = userTag;
         fav_blog.put("0","dummy");
         my_blog.put("0","dummy");
-        MainActivity.formFlag = true;
+
     }
 
     public User ()
