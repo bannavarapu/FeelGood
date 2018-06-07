@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -98,7 +99,11 @@ public class MainActivity extends AppCompatActivity
                     final String current = stressTag.get(tags[i]);
                     if(current == "grief" || current == "anger")
                     {
-                        stressReliefOptions.add("meditation");
+                        if(!stressReliefOptions.contains("meditation"))
+                        {
+                            stressReliefOptions.add("meditation");
+                        }
+
                     }
                     else
                     {
@@ -110,14 +115,29 @@ public class MainActivity extends AppCompatActivity
                                 String k = dataSnapshot.getValue().toString().split("=")[0].replace("{","");
                                 if(k.length()>1 && stressReliefOptions.size()<4)
                                 {
-                                    stressReliefOptions.add("tedtalk");
-                                    stressReliefOptions.add("music");
-                                    stressReliefOptions.add("dance");
-                                    stressReliefOptions.add("meditation");
+                                    if(!stressReliefOptions.contains("tedtalk"))
+                                    {
+                                        stressReliefOptions.add("tedtalk");
+                                    }
+                                    if(!stressReliefOptions.contains("music"))
+                                    {
+                                        stressReliefOptions.add("music");
+                                    }
+                                    if(!stressReliefOptions.contains("dance"))
+                                    {
+                                        stressReliefOptions.add("dance");
+                                    }
+                                    if(!stressReliefOptions.contains("meditation"))
+                                    {
+                                        stressReliefOptions.add("meditation");
+                                    }
                                 }
                                 else if(k.length()==1)
                                 {
-                                    stressReliefOptions.add(toAddToList.get(k));
+                                    if(!stressReliefOptions.contains(toAddToList.get(k)))
+                                    {
+                                        stressReliefOptions.add(toAddToList.get(k));
+                                    }
                                 }
 
                             }

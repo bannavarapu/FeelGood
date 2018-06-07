@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -82,8 +83,9 @@ public class RelaxOptions extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ArrayList<String> list = MainActivity.getStressReliefOptions();
                 Relax_option_format option ;
-                String index1 = 1+"";
-                String index2 = 2+"";
+                Random rand = new Random();
+                String index1 = rand.nextInt(8)+1+"";
+                String index2 = rand.nextInt(8)+1+"";
                 suggestionsToDisplay.clear();
 
                 for(String single: list)
@@ -104,13 +106,14 @@ public class RelaxOptions extends AppCompatActivity
 
                 while(suggestionsToDisplay.size()<12)
                 {
-                    Random rand = new Random();
                     int i = rand.nextInt(6)+1;
                     //generate random number again to select from sub category, for now fixing it to 1
-                    int j = 1;
+                    int j = rand.nextInt(8)+1;
                     option = (Relax_option_format)dataSnapshot.child(GenerateRandom.get(i)).child(j+"").getValue(Relax_option_format.class);
                     suggestionsToDisplay.add(option);
                 }
+
+                Collections.shuffle(suggestionsToDisplay);
 
 
                 mRecyclerView.setAdapter(mAdapter);
