@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -22,7 +23,7 @@ public class MainFacts extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
     MainFactsAdapter mAdapter;
-    private HashMap<Integer,String> genrandom = new HashMap<>();
+    private HashMap<String,Integer> forsize = new HashMap<>();
     ArrayList<main_fact> factstodisplay = new ArrayList<>();
 
     public void filldata()
@@ -40,18 +41,13 @@ public class MainFacts extends AppCompatActivity {
 
                 for(int i=2;i<l;i++)
                 {
-                    for(int j=1;j<6;j++)
+                    for(int j=1;j<forsize.get(tag[i]);j++)
                     {
                         factstodisplay.add(dataSnapshot.child(tag[i]).child(j+"").getValue(main_fact.class));
                     }
                 }
-                while (factstodisplay.size()<20)
-                    {
-                    Random rand = new Random();
-                    int i = rand.nextInt(7)+1;
-                    int j = rand.nextInt(5)+1;
-                    factstodisplay.add(dataSnapshot.child(genrandom.get(i)).child(j+"").getValue(main_fact.class));
-                }
+
+                Collections.shuffle(factstodisplay);
                 mRecyclerView.setAdapter(mAdapter);
 
             }
@@ -74,13 +70,13 @@ public class MainFacts extends AppCompatActivity {
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new MainFactsAdapter(this,factstodisplay);
-        genrandom.put(1,"P");
-        genrandom.put(2,"E");
-        genrandom.put(3,"N");
-        genrandom.put(4,"M");
-        genrandom.put(5,"A");
-        genrandom.put(6,"C");
-        genrandom.put(7,"G");
+        forsize.put("A",5);
+        forsize.put("C",2);
+        forsize.put("E",3);
+        forsize.put("G",3);
+        forsize.put("M",1);
+        forsize.put("N",0);
+        forsize.put("P",0);
         filldata();
         mRecyclerView.setAdapter(mAdapter);
     }
