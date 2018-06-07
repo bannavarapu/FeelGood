@@ -78,23 +78,24 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-     }
+    }
 
-     private void fillreliefoption()
-     {
-         final String [] tags = mUserTag.split("_");
-         String age = ageMap.get(tags[0]);
-         String gender = genderMap.get(tags[1]);
-         Log.e("age",age);
-         Log.e("gender",gender);
-         final int length = tags.length;
-         final DatabaseReference toFetch = FirebaseDatabase.getInstance().getReference().child("relax_responses").child(age).child(gender);
-         toFetch.addValueEventListener(new ValueEventListener() {
-             @Override
-             public void onDataChange(DataSnapshot dataSnapshot) {
-                 for(int i=2;i<length;i++)
-                 {
-                    String current = stressTag.get(tags[i]);
+    private void fillreliefoption()
+    {
+         mUserTag = "2_F_N_P_E_A_G";
+        final String [] tags = mUserTag.split("_");
+        String age = ageMap.get(tags[0]);
+        String gender = genderMap.get(tags[1]);
+        Log.e("age",age);
+        Log.e("gender",gender);
+        final int length = tags.length;
+        final DatabaseReference toFetch = FirebaseDatabase.getInstance().getReference().child("relax_responses").child(age).child(gender);
+        toFetch.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(int i=2;i<length;i++)
+                {
+                    final String current = stressTag.get(tags[i]);
                     if(current == "grief" || current == "anger")
                     {
                         stressReliefOptions.add("meditation");
@@ -106,8 +107,19 @@ public class MainActivity extends AppCompatActivity
                         query.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                String i = dataSnapshot.getValue().toString().split("=")[0].replace("{","");
-                                stressReliefOptions.add(toAddToList.get(i));
+                                String k = dataSnapshot.getValue().toString().split("=")[0].replace("{","");
+                                if(k.length()>1 && stressReliefOptions.size()<4)
+                                {
+                                    stressReliefOptions.add("tedtalk");
+                                    stressReliefOptions.add("music");
+                                    stressReliefOptions.add("dance");
+                                    stressReliefOptions.add("meditation");
+                                }
+                                else if(k.length()==1)
+                                {
+                                    stressReliefOptions.add(toAddToList.get(k));
+                                }
+
                             }
 
                             @Override
@@ -116,15 +128,15 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                     }
-                 }
-             }
+                }
+            }
 
-             @Override
-             public void onCancelled(DatabaseError databaseError) {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-             }
-         });
-     }
+            }
+        });
+    }
 
     private void checkUserTag(){
         DatabaseReference fortag = FirebaseDatabase.getInstance().getReference().child("users").child(mUserID);

@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -136,48 +137,12 @@ public class Blog extends AppCompatActivity {
             return fragment;
         }
 
-        public void fillmyblogadapter(final Context context, ArrayList<Blog_format> blog_posts,boolean flag)
-        {
-            mAdapter = new BlogAdapter(context, blog_posts,flag);
-            mRecyclerView.setAdapter(mAdapter);
-        }
-
-        public final void fillPosts(final Context context, final ArrayList<String> user_posts, final boolean flag)
-        {
-            final ArrayList<Blog_format> myPosts = new ArrayList<>();
-            for(String s : user_posts)
-            {
-                DatabaseReference newRef = blogRef.child(s);
-                newRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        ArrayList<String > forOne = new ArrayList<>();
-                        for(DataSnapshot post: dataSnapshot.getChildren())
-                        {
-                            forOne.add(post.getValue().toString());
-                        }
-
-                        myPosts.add(new Blog_format(forOne.get(3),forOne.get(2),forOne.get(1),forOne.get(0),forOne.get(4)));
-                        if(myPosts.size()==user_posts.size())
-                        {
-                            fillmyblogadapter(context, myPosts, flag);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-
-
-            }
-        }
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
             DatabaseReference publicBlogRef = FirebaseDatabase.getInstance().getReference().child("blog_posts");
             final ArrayList<Blog_format> allposts = new ArrayList<>();
+            final ArrayList<Blog_format> userposts = new ArrayList<>();
+            final ArrayList<Blog_format> favposts = new ArrayList<>();
             View rootView = inflater.inflate(R.layout.fragment_blog, container, false);
             final Context context = getContext();
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.blogView);
@@ -189,68 +154,82 @@ public class Blog extends AppCompatActivity {
 
             if(getArguments().getInt(ARG_SECTION_NUMBER) == 1){
                 DatabaseReference userPostRef = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.getmUserID()).child("fav_blog");
-                userPostRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                userPostRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        ArrayList<String> user_posts = new ArrayList<>();
-                        for(DataSnapshot snap: dataSnapshot.getChildren())
+                        favposts.clear();
+                        for(DataSnapshot post : dataSnapshot.getChildren())
                         {
-                                if(!snap.getValue().toString().equals("dummy"))
-                                user_posts.add(snap.getValue().toString().split("_")[1]);
+                            if(!post.getValue().toString().equals("dummy"))
+                            {
+                                final HashMap <String, String> singlepost = (HashMap<String, String>)post.getValue();
+                                favposts.add(new Blog_format(singlepost.get("userId"),singlepost.get("title"),singlepost.get("postID"),singlepost.get("description"),singlepost.get("visibility")));
+                            }
+//
                         }
-                        fillPosts(context, user_posts, true);
+                        mAdapter = new BlogAdapter(context, favposts,true);
+                        mRecyclerView.setAdapter(mAdapter);
+
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
+
                     }
                 });
 
             }
             else if(getArguments().getInt(ARG_SECTION_NUMBER) == 2){
 
-                  DatabaseReference userPostRef = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.getmUserID()).child("my_blog");
-                  userPostRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                      @Override
-                      public void onDataChange(DataSnapshot dataSnapshot) {
-                          ArrayList<String> user_posts = new ArrayList<>();
-                          for(DataSnapshot snap: dataSnapshot.getChildren())
-                          {
-                              if(!snap.getValue().toString().equals("dummy"))
-                              user_posts.add(snap.getValue().toString().split("_")[1]);
-                          }
-                          fillPosts(context, user_posts, false);
-                      }
-
-                      @Override
-                      public void onCancelled(DatabaseError databaseError) {
-                      }
-                  });
-;
-
-            }else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
-
-                ValueEventListener tofillposts = new ValueEventListener() {
+                DatabaseReference userPostRef = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.getmUserID()).child("my_blog");
+                userPostRef.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        allposts.clear();
-                       for(DataSnapshot post : dataSnapshot.getChildren())
-                       {
-                           final HashMap <String, String> singlepost = (HashMap<String, String>)post.getValue();
-                           if(singlepost.get("visibility").equals("public"))
-                           {
-                               allposts.add(new Blog_format(singlepost.get("userId"),singlepost.get("title"),singlepost.get("postID"),singlepost.get("description"),singlepost.get("visibility")));
-                           }
-                       }
-                        mAdapter = new BlogAdapter(context, allposts,false);
+                        userposts.clear();
+                        for(DataSnapshot post : dataSnapshot.getChildren())
+                        {
+                            if(!post.getValue().toString().equals("dummy"))
+                            {
+                                final HashMap <String, String> singlepost = (HashMap<String, String>)post.getValue();
+                                userposts.add(new Blog_format(singlepost.get("userId"),singlepost.get("title"),singlepost.get("postID"),singlepost.get("description"),singlepost.get("visibility")));
+                            }
+                        }
+                        mAdapter = new BlogAdapter(context, userposts,false);
                         mRecyclerView.setAdapter(mAdapter);
+
                     }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
 
                     }
-                };
-                blogRef.addValueEventListener(tofillposts);
+                });
+
+
+
+            }
+            else if(getArguments().getInt(ARG_SECTION_NUMBER) == 3){
+                blogRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        allposts.clear();
+                        for(DataSnapshot post : dataSnapshot.getChildren())
+                        {
+                            final HashMap <String, String> singlepost = (HashMap<String, String>)post.getValue();
+                            if(singlepost.get("visibility").equals("public"))
+                            {
+                                allposts.add(new Blog_format(singlepost.get("userId"),singlepost.get("title"),singlepost.get("postID"),singlepost.get("description"),singlepost.get("visibility")));
+                            }
+                        }
+                        mAdapter = new BlogAdapter(context, allposts,false);
+                        mRecyclerView.setAdapter(mAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
             }
 
@@ -279,7 +258,7 @@ public class Blog extends AppCompatActivity {
 
         @Override
         public int getCount() {
-              return 3;
+            return 3;
         }
 
         @Nullable
@@ -289,3 +268,4 @@ public class Blog extends AppCompatActivity {
         }
     }
 }
+

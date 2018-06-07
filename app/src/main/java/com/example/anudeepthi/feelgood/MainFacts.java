@@ -27,29 +27,32 @@ public class MainFacts extends AppCompatActivity {
 
     public void filldata()
     {
-//        factstodisplay.clear();
         final String tag [] = MainActivity.muserTag().split("_");
         final int l = tag.length;
         final DatabaseReference factref = FirebaseDatabase.getInstance().getReference().child("main_facts");
         factref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                for(int j=1;j<6;j++)
+                {
+                    factstodisplay.add(dataSnapshot.child("S").child(j+"").getValue(main_fact.class));
+                }
+
                 for(int i=2;i<l;i++)
                 {
-                    Log.e("checkpoint","3");
                     for(int j=1;j<6;j++)
                     {
                         factstodisplay.add(dataSnapshot.child(tag[i]).child(j+"").getValue(main_fact.class));
                     }
                 }
-                while (factstodisplay.size()<15)
+                while (factstodisplay.size()<20)
                     {
-                        Log.e("checkpoint","4");
                     Random rand = new Random();
                     int i = rand.nextInt(7)+1;
                     int j = rand.nextInt(5)+1;
                     factstodisplay.add(dataSnapshot.child(genrandom.get(i)).child(j+"").getValue(main_fact.class));
                 }
+                mRecyclerView.setAdapter(mAdapter);
 
             }
 
@@ -65,7 +68,6 @@ public class MainFacts extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("checkpoint","1");
         setContentView(R.layout.activity_main_facts);
         mRecyclerView = (RecyclerView) findViewById(R.id.main_facts);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -79,7 +81,6 @@ public class MainFacts extends AppCompatActivity {
         genrandom.put(5,"A");
         genrandom.put(6,"C");
         genrandom.put(7,"G");
-        Log.e("checkpoint","2");
         filldata();
         mRecyclerView.setAdapter(mAdapter);
     }

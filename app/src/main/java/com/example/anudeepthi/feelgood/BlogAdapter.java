@@ -43,7 +43,6 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.BlogViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final BlogViewHolder holder, final int position) {
-
         holder.title.setText(array.get(position).title);
         holder.description.setText(array.get(position).description);
         holder.heart.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +50,7 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.BlogViewHolder
             public void onClick(View v) {
                 DatabaseReference toaddfav = FirebaseDatabase.getInstance().getReference().child("users").child(MainActivity.getmUserID()).child("fav_blog");
                 String postID=array.get(position).postID;
-                toaddfav.child(postID.split("_")[1]).setValue(postID);
+                toaddfav.child(postID.split("_")[1]).setValue(array.get(position));
                 Toast.makeText(context,"Well, you have a nice taste.....",Toast.LENGTH_LONG).show();
             }
         });

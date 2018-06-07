@@ -69,7 +69,7 @@ public class PostBlog extends AppCompatActivity {
         final DatabaseReference countRef = mFirebaseDatabase.getReference().child("blog_posts_number");
         if(title.length()==0 || description.length()==0)
         {
-            Toast.makeText(this, "Bro, Come you can't leave those fields empty", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "You can't leave those fields empty", Toast.LENGTH_LONG).show();
 
         }
         else
@@ -86,16 +86,14 @@ public class PostBlog extends AppCompatActivity {
                         DatabaseReference postRef = mFirebaseDatabase.getReference().child("blog_posts");
                         postRef.child(post_number).setValue(blog);
                         DatabaseReference userPost = mFirebaseDatabase.getReference().child("users").child(userID).child("my_blog");
-                        userPost.child(post_number).setValue("Blog_"+post_number);
+                        userPost.child(post_number).setValue(blog);
 
                       }
-                    else
+                    else if(visibility.equals("private"))
                         {
                             Blog_format blog = new Blog_format(userID,title, "blog_"+post_number, description,"private");
-                            DatabaseReference postRef = mFirebaseDatabase.getReference().child("blog_posts");
-                            postRef.child(post_number).setValue(blog);
                             DatabaseReference userPost = mFirebaseDatabase.getReference().child("users").child(userID).child("my_blog");
-                            userPost.child(post_number).setValue("Blog_"+post_number);
+                            userPost.child(post_number).setValue(blog);
                         }
                       finish();
 
