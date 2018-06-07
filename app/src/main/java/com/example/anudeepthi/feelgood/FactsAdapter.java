@@ -31,7 +31,6 @@ public class FactsAdapter extends RecyclerView.Adapter<FactsAdapter.FactsViewHol
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(layoutid, parent, false);
         FactsViewHolder viewHolder = new FactsViewHolder(view);
-
         return  viewHolder;
     }
 

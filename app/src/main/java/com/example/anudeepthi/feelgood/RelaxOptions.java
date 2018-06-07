@@ -20,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class RelaxOptions extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,10 +29,11 @@ public class RelaxOptions extends AppCompatActivity
     private RelaxationAdapter mAdapter;
     RecyclerView mRecyclerView;
     private DatabaseReference mDatabaseReference;
-    ArrayList<Relax_option_format> suggestionsToDisplay;
-    FirebaseDatabase mFirebaseDatabase;
+    private ArrayList<Relax_option_format> suggestionsToDisplay;
+    private FirebaseDatabase mFirebaseDatabase;
     private final int REQUEST_CODE = 1001;
     static String activity;
+    private HashMap<Integer,String> GenerateRandom = new HashMap<>();
 
 
     @Override
@@ -39,8 +42,6 @@ public class RelaxOptions extends AppCompatActivity
         setContentView(R.layout.activity_relax_options);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -57,6 +58,12 @@ public class RelaxOptions extends AppCompatActivity
         suggestionsToDisplay = new ArrayList<Relax_option_format>();
         mAdapter = new RelaxationAdapter(this,suggestionsToDisplay);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
+        GenerateRandom.put(1,"music");
+        GenerateRandom.put(2,"tedtalk");
+        GenerateRandom.put(3,"comedy");
+        GenerateRandom.put(4,"yoga");
+        GenerateRandom.put(5,"dance");
+        GenerateRandom.put(6,"meditation");
         fillDataSet();
     }
 
@@ -73,30 +80,39 @@ public class RelaxOptions extends AppCompatActivity
         ValueEventListener toFillSuggestions = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<String> list = MainActivity.getStressReliefOptions();
                 Relax_option_format option ;
                 String index1 = 1+"";
                 String index2 = 2+"";
                 suggestionsToDisplay.clear();
-                option = dataSnapshot.child("music").child(index1).getValue(Relax_option_format.class);
+
+                for(String single: list)
+                {
+                    option = (Relax_option_format)dataSnapshot.child(single).child(index1).getValue(Relax_option_format.class);
+                    suggestionsToDisplay.add(option);
+                    option = (Relax_option_format)dataSnapshot.child(single).child(index2).getValue(Relax_option_format.class);
+                    suggestionsToDisplay.add(option);
+                }
+                option = (Relax_option_format)dataSnapshot.child("comedy").child(index1).getValue(Relax_option_format.class);
                 suggestionsToDisplay.add(option);
-                option = dataSnapshot.child("music").child(index2).getValue(Relax_option_format.class);
-                suggestionsToDisplay.add(option);
-                option = (Relax_option_format)dataSnapshot.child("dance").child(index1).getValue(Relax_option_format.class);
-                suggestionsToDisplay.add(option);
-                option = (Relax_option_format)dataSnapshot.child("dance").child(index2).getValue(Relax_option_format.class);
+                option = (Relax_option_format)dataSnapshot.child("comedy").child(index2).getValue(Relax_option_format.class);
                 suggestionsToDisplay.add(option);
                 option = (Relax_option_format)dataSnapshot.child("yoga").child(index1).getValue(Relax_option_format.class);
                 suggestionsToDisplay.add(option);
                 option = (Relax_option_format)dataSnapshot.child("yoga").child(index2).getValue(Relax_option_format.class);
                 suggestionsToDisplay.add(option);
-                option = (Relax_option_format)dataSnapshot.child("meditation").child(index1).getValue(Relax_option_format.class);
-                suggestionsToDisplay.add(option);
-                option = (Relax_option_format)dataSnapshot.child("meditation").child(index2).getValue(Relax_option_format.class);
-                suggestionsToDisplay.add(option);
-                option = (Relax_option_format)dataSnapshot.child("comedy").child(index1).getValue(Relax_option_format.class);
-                suggestionsToDisplay.add(option);
-                option = (Relax_option_format)dataSnapshot.child("comedy").child(index2).getValue(Relax_option_format.class);
-                suggestionsToDisplay.add(option);
+
+                while(suggestionsToDisplay.size()<12)
+                {
+                    Random rand = new Random();
+                    int i = rand.nextInt(6)+1;
+                    //generate random number again to select from sub category, for now fixing it to 1
+                    int j = 1;
+                    option = (Relax_option_format)dataSnapshot.child(GenerateRandom.get(i)).child(j+"").getValue(Relax_option_format.class);
+                    suggestionsToDisplay.add(option);
+                }
+
+
                 mRecyclerView.setAdapter(mAdapter);
             }
             @Override

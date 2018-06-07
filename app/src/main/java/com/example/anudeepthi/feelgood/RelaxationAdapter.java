@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.StrictMode;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext,"You liked this post!",Toast.LENGTH_LONG).show();
+//                Log.e("hello",suggestionList.get(position).id);
                 updateNumber(suggestionList.get(position).id, true);
 
             }
@@ -92,7 +94,7 @@ public class RelaxationAdapter extends RecyclerView.Adapter<RelaxationAdapter.Re
     public void updateNumber(String id, boolean flag)
     {
         String [] details = id.split("_");
-        final DatabaseReference refToUpdate = FirebaseDatabase.getInstance().getReference().child("dashboard").child(details[0]).child(details[1]);
+        final DatabaseReference refToUpdate = FirebaseDatabase.getInstance().getReference().child("relax_options").child(details[0]).child(details[1]);
         if(flag == true)
         {
 

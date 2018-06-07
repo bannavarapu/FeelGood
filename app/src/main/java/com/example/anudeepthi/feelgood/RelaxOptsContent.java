@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -255,6 +256,7 @@ public class RelaxOptsContent extends AppCompatActivity
             String mainImage;
             final String url;
             mainImage = dataUrl.split(";")[0];
+            Log.e("url",dataUrl);
             url = dataUrl.split(";")[1];
             Glide.with(getContext()).load(mainImage).thumbnail(0.5f).into(imageView);
 
