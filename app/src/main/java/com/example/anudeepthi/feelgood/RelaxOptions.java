@@ -87,7 +87,7 @@ public class RelaxOptions extends AppCompatActivity
                 String index1 = rand.nextInt(8)+1+"";
                 String index2 = rand.nextInt(8)+1+"";
                 suggestionsToDisplay.clear();
-
+                System.out.println("List: "+list);
                 for(String single: list)
                 {
                     option = (Relax_option_format)dataSnapshot.child(single).child(index1).getValue(Relax_option_format.class);

@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,13 +67,21 @@ public class MainActivity extends AppCompatActivity
     static boolean formFlag = false;
     static RecyclerView facts_rv;
     static Button fillFormButton;
+    static TextView feelingQuery;
+    static LinearLayout images;
+    static RelativeLayout buttonLayout;
 
     private void fillform() {
+        buttonLayout = (RelativeLayout) findViewById(R.id.buttonLayout);
+        buttonLayout.setVisibility(View.VISIBLE);
         fillFormButton = (Button) findViewById(R.id.fillForm);
         fillFormButton.setVisibility(View.VISIBLE);
         facts_rv = (RecyclerView) findViewById(R.id.rv_facts);
         facts_rv.setVisibility(View.GONE);
-
+        feelingQuery = (TextView) findViewById(R.id.feeling_query);
+        feelingQuery.setVisibility(View.GONE);
+        images = (LinearLayout) findViewById(R.id.images);
+        images.setVisibility(View.GONE);
         fillFormButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

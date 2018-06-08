@@ -49,6 +49,9 @@ public class FillFormApp extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.getValue().toString().equals("Tag")){
                     MainActivity.facts_rv.setVisibility(View.VISIBLE);
+                    MainActivity.images.setVisibility(View.VISIBLE);
+                    MainActivity.feelingQuery.setVisibility(View.VISIBLE);
+                    MainActivity.buttonLayout.setVisibility(View.GONE);
                     MainActivity.fillFormButton.setVisibility(View.GONE);
                 }
             }

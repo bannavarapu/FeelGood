@@ -54,6 +54,7 @@ public class RelaxOptsContent extends AppCompatActivity
     private void fillData (String category)
     {
         resourceIDUrls = new ArrayList<>();
+        resourceLinks = new ArrayList<>();
         DatabaseReference toAdd = FirebaseDatabase.getInstance().getReference().child("relax_options").child(category);
         toAdd.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -62,6 +63,7 @@ public class RelaxOptsContent extends AppCompatActivity
                 {
                     resourceIDUrls.add(each.child("image").getValue().toString());
                     resourceLinks.add(each.child("url").getValue().toString());
+                    System.out.println("At resource: "+resourceLinks);
                 }
 
                 setStage();
@@ -260,8 +262,8 @@ public class RelaxOptsContent extends AppCompatActivity
             Log.e("url",dataUrl);
             url = dataUrl.split(";")[1];
             Glide.with(getContext()).load(mainImage).thumbnail(0.5f).into(imageView);
-
-
+            System.out.println("lsjfldkjflk jlskdfj lskdfj dlkfj");
+            System.out.println(dataUrl);
             if(!url.equals("null")){
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
