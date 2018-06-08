@@ -3,6 +3,8 @@ package com.example.anudeepthi.feelgood;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -24,4 +26,5 @@ public class WebApp extends AppCompatActivity {
         webView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         webView.loadUrl(url);
     }
+
 }

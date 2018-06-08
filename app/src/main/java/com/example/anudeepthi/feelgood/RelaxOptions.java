@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -117,6 +119,8 @@ public class RelaxOptions extends AppCompatActivity
 
 
                 mRecyclerView.setAdapter(mAdapter);
+                ProgressBar mRelaxProg = (ProgressBar) findViewById(R.id.relaxProgBar);
+                mRelaxProg.setVisibility(View.INVISIBLE);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

@@ -18,12 +18,23 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
+                                      <entry key="backgroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="0" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                       <entry key="foregroundImage">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="92" />
+                                                <entry key="scalingPercent" value="107" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -33,11 +44,13 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="020503" />
                                       <entry key="backgroundLayerName" value="launcher_background" />
                                       <entry key="foregroundImage" value="G:\IT\Practicum\Pics\icons\app_logo.png" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_foreground" />
+                                      <entry key="foregroundLayerName" value="icon" />
                                       <entry key="legacyIconShape" value="CIRCLE" />
-                                      <entry key="outputName" value="launcher_logo" />
+                                      <entry key="outputName" value="main_icon" />
                                       <entry key="webIconShape" value="CIRCLE" />
                                     </map>
                                   </option>

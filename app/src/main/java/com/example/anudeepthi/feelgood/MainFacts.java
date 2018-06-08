@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +27,7 @@ public class MainFacts extends AppCompatActivity {
     MainFactsAdapter mAdapter;
     private HashMap<String,Integer> forsize = new HashMap<>();
     ArrayList<main_fact> factstodisplay = new ArrayList<>();
+    static ProgressBar mainFactsProg;
 
     public void filldata()
     {
@@ -49,6 +52,8 @@ public class MainFacts extends AppCompatActivity {
 
                 Collections.shuffle(factstodisplay);
                 mRecyclerView.setAdapter(mAdapter);
+                mainFactsProg = (ProgressBar) findViewById(R.id.mainFactsProg);
+                mainFactsProg.setVisibility(View.INVISIBLE);
 
             }
 

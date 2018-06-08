@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -255,6 +256,7 @@ public class MainActivity extends AppCompatActivity
         factsToDisplay.clear();
         this.flag = flag;
         mDatabaseReference = mFirebaseDatabase.getReference().child("facts").child(currentMood);
+        final ProgressBar mProgBar = (ProgressBar) findViewById(R.id.progBar);
         final ArrayList<Integer> remduplicate = new ArrayList<>();
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -272,6 +274,8 @@ public class MainActivity extends AppCompatActivity
                         mAdapter.notifyDataSetChanged();
                     } else {
                         mRecyclerView.setAdapter(mAdapter);
+                        mProgBar.setVisibility(View.INVISIBLE);
+
                     }
                 }
 
@@ -468,9 +472,11 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_hotline) {
 
-        } else if (id == R.id.nav_share) {
+        }else if (id == R.id.nav_about) {
 
-        } else if (id == R.id.nav_send) {
+            Intent intent = new Intent(this, Communicate.class);
+            startActivity(intent);
+            return true;
 
         }
 

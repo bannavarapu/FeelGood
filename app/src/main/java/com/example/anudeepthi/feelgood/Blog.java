@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -53,6 +54,7 @@ public class Blog extends AppCompatActivity {
     private static BlogAdapter mAdapter;
     static DatabaseReference blogRef = FirebaseDatabase.getInstance().getReference().child("blog_posts");
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,6 @@ public class Blog extends AppCompatActivity {
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
-
 
 
 
@@ -121,7 +122,6 @@ public class Blog extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-
         public PlaceholderFragment() {
         }
 
@@ -146,6 +146,7 @@ public class Blog extends AppCompatActivity {
             View rootView = inflater.inflate(R.layout.fragment_blog, container, false);
             final Context context = getContext();
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.blogView);
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
             mRecyclerView.setLayoutManager(layoutManager);
             mRecyclerView.setHasFixedSize(true);
@@ -169,7 +170,6 @@ public class Blog extends AppCompatActivity {
                         }
                         mAdapter = new BlogAdapter(context, favposts,true);
                         mRecyclerView.setAdapter(mAdapter);
-
                     }
 
                     @Override
@@ -196,7 +196,6 @@ public class Blog extends AppCompatActivity {
                         }
                         mAdapter = new BlogAdapter(context, userposts,false);
                         mRecyclerView.setAdapter(mAdapter);
-
                     }
 
                     @Override
