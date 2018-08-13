@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>User Details</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link href='https://fonts.googleapis.com/css?family=Alegreya SC' rel='stylesheet'>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>   
+        <style>
+            body{
+                font-family: 'Alegreya SC';
+                margin-left: 40px;
+                background-image: url("https://png.pngtree.com/thumb_back/fw800/back_pic/00/02/39/09561762aa9bc6a.jpg");
+                background-repeat: no-repeat;
+                background-size: cover;
+                color: black;   
+                font-size: 18px;             
+            }
+        </style>    
+    </head>
+    <body>
+        <h3>Please fill in the following details!</h3>
+        
+            <form method="POST">
+                        <div >                               
+                                    <input type="text" name="uname" id="username" style="display: none;"><br>                                    
+                                
+                        </div>
+                        <div>
+                                <br><label>Please select your age group <br>
+                                        <input type="radio" name="age" value="1" required="required">14-18<br>
+                                        <input type="radio" name="age" value="2" >18-24<br>
+                                        <input type="radio" name="age" value="3" >24-30<br>
+                                        <input type="radio" name="age" value="4">30-40<br>
+                                        <input type="radio" name="age" value="5">40+<br>
+                                </label> 
+                        </div> 
+                        <div>
+                            <br><label>Please select your gender <br>
+                                    <input type="radio" name="gender" value="M" required="required">Male<br>
+                                    <input type="radio" name="gender" value="F">Female<br>
+                                    <input type="radio" name="gender" value="O">Other<br>
+                            </label> 
+                        </div>
+                        <div>
+                            <br><label>Do you take proper meals in a day? <br>
+                                    <input type="radio" name="food" value="Y" required="required">Yes<br>
+                                    <input type="radio" name="food" value="N">No<br>
+                          
+                            </label> 
+                        </div>
+                        <div>
+                            <br><label>How many hours of sleep do you get in a day? <br>
+                                    <input type="radio" name="sleep" value="1">6-<br>
+                                    <input type="radio" name="sleep" value="2">6-8<br>
+                                    <input type="radio" name="sleep" value="3">8+<br>
+                              </label> 
+                        </div>
+                        <div>
+                            <br><label>What’s your profession?  <br>
+                                    <input type="radio" name="profession" value="a" required="required">Student<br>
+                                    <input type="radio" name="profession" value="b">Healthcare professional<br>
+                                    <input type="radio" name="profession" value="c">Hospitality industry<br>
+                                    <input type="radio" name="profession" value="d">IT professionals<br>
+                                    <input type="radio" name="profession" value="e">Finance sector<br>
+                                    <input type="radio" name="profession" value="f">Other<br>
+                            </label> 
+                        </div>
+                        <div>
+                            <br><label>How happy are you with your profession? (Rate on 5, 5 indicates happiest)<br>
+                                    <input type="radio" name="prof_happy" value="1" required="required">1<br>
+                                    <input type="radio" name="prof_happy" value="2">2<br>
+                                    <input type="radio" name="prof_happy" value="3">3<br>
+                                    <input type="radio" name="prof_happy" value="4">4<br>
+                                    <input type="radio" name="prof_happy" value="5">5<br>                                   
+                                </label> 
+                        </div>
+                        <div>
+                            <br><label>Does your profession demand intense exertion and travel?<br>
+                                    <input type="radio" name="prof_work" value="Y" required="required">yes<br>
+                                    <input type="radio" name="prof_work" value="N">No<br>                                                        
+                                </label> 
+                        </div>
+                        <div>
+                            <br><label>You suddenly feel anger boiling up, how do you react?<br>
+                                    <input type="radio" name="anger" value="1" required="required">I never get angry<br>
+                                    <input type="radio" name="anger" value="2">Get up and walk out<br>
+                                    <input type="radio" name="anger" value="3">Act impulsively<br>
+                                    <input type="radio" name="anger" value="4">Other<br>                                                       
+                            </label> 
+                        </div>
+                        <div>
+                            <br><label>Something really bad had happened and you feel like crying what do you do?<br>
+                                    <input type="radio" name="cry" value="1" required="required">I don’t feel like crying<br>
+                                    <input type="radio" name="cry" value="2">I let it out<br>
+                                    <input type="radio" name="cry" value="3">I hold it in<br>                                                                              
+                                </label> 
+                        </div>                        
+                        <div>
+                            <br><label>Have you experienced emotional trauma over the past one year? <br>
+                                    <input type="radio" name="trauma" value="Y" required="required">Yes<br>
+                                    <input type="radio" name="trauma" value="N">No<br>                                                                           
+                            </label> 
+                        </div>
+                        <div>
+                            <br><label>How often do you feel lonely? <br>
+                                    <input type="radio" name="lonely" value="1" required="required">Never<br>
+                                    <input type="radio" name="lonely" value="2">Sometimes<br>
+                                    <input type="radio" name="lonely" value="3">Often<br>                                                                              
+                            </label> 
+                        </div>
+                        <div>
+                            <br><label>Are you habituated to any of the following?<br>Smoking, &nbsp&nbspDrinking, &nbsp&nbspProlonged exposure to medication, &nbsp&nbspCaffeine, &nbsp&nbspProlonged exposure to environmental pollution<br>
+                                    <input type="radio" name="chemical" value="Y">Yes<br>
+                                    <input type="radio" name="chemical" value="N">No<br>                                                                                                       
+                            </label> 
+                        </div>
+                        <div>
+                            <br><label>What do you like to do when you are stressed? <br>
+                                    <input type="checkbox" name="relief" value="1">I don't feel stressed<br>
+                                    <input type="checkbox" name="relief" value="2">Talk to somebody<br>
+                                    <input type="checkbox" name="relief" value="3">Listen to music<br>
+                                    <input type="checkbox" name="relief" value="4">Get professional help<br>
+                                    <input type="checkbox" name="relief" value="5">Meditation<br>
+                                    <input type="checkbox" name="relief" value="6">Engage in a hobby<br> 
+                                    <input type="checkbox" name="relief" value="7">Take Antidepressants<br>                                                                                                       
+                            </label> 
+                        </div>
+                        <div>
+                            <br><label>How relieved are you after doing the above-mentioned activity? (Rate on 10, 10 indicates most relieved)<br>
+                                    <input type="radio" name="effect" value="1" required="required">1<br>
+                                    <input type="radio" name="effect" value="2">2<br>
+                                    <input type="radio" name="effect" value="3">3<br>
+                                    <input type="radio" name="effect" value="4">4<br>
+                                    <input type="radio" name="effect" value="5">5<br>
+                                    <input type="radio" name="effect" value="6">6<br> 
+                                    <input type="radio" name="effect" value="7">7<br> 
+                                    <input type="radio" name="effect" value="8">8<br> 
+                                    <input type="radio" name="effect" value="9">9<br> 
+                                    <input type="radio" name="effect" value="10">10<br>                                                                                                      
+                            </label> 
+                        </div>
+
+                        <input type="submit" value="Submit"> 
+            </form>            
+    </body>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-database.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCYmpm9pQvxkubFRsSijl-H5u-SliModJU",
+        authDomain: "feelgood-58fe5.firebaseapp.com",
+        databaseURL: "https://feelgood-58fe5.firebaseio.com",
+        storageBucket: "feelgood-58fe5.appspot.com",
+    };
+    firebase.initializeApp(config);    
+    </script>
+</html>
